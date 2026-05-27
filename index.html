@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTour</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="icon">
+            <h2 class="logo">EduTour: Ano, tara?</h2>
+        </div>
+        
+        <nav class="menu">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About us</a></li>
+                <li><a href="#faqs">FAQs</a></li>
+            </ul>
+        </nav>
+
+        <div class="login-container">
+            <a href="login_page.html" class="btn-login">Log in</a>
+        </div>
+
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle navigation" onclick="toggleMobileNav()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Mobile navigation drawer -->
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="#home" class="mobile-nav-link" onclick="closeMobileNav()">Home</a>
+        <a href="#about" class="mobile-nav-link" onclick="closeMobileNav()">About us</a>
+        <a href="#faqs" class="mobile-nav-link" onclick="closeMobileNav()">FAQs</a>
+        <a href="login_page.html" class="mobile-login-pill">Log in</a>
+    </div>
+
+    <main class="main-content">
+        
+        <section id="home" class="hero">
+            <div class="hero-left">
+                <span class="hero-subtitle">Tourism students'</span>
+                <h1 class="hero-title">Academic and<br>Practical<br>Experience Survey</h1>
+            </div>
+            
+            <div class="hero-right">
+                <img src="https://github.com/gavrixen/WEBDEV/blob/main/clean%20plane.png?raw=true" alt="Plane" class="plane-img">
+                <a href="signup_page.html" class="btn-get-started">Get Started ></a>
+            </div>
+        </section>
+
+        <section id="about" class="about-section">
+            <div class="about-card">
+                <h2 class="about-title">About us</h2>
+                <p class="about-text">
+                    Welcome to our specialized platform designed exclusively for the next generation of tourism and hospitality professionals. We believe that excellent education relies on a strong connection between classroom theory and real-world application. This tool gathers and analyzes the diverse experiences of tourism students navigating their degrees, field activities, and industry placements. By capturing these insights, we help shape a more responsive, impactful educational journey that better prepares students for the global workforce.
+                </p>
+            </div>
+        </section>
+
+        <section class="mission-vision-section">
+            <div class="mv-container">
+                
+                <div class="mv-card">
+                    <h2 class="mv-title">Our Mission</h2>
+                    <p class="mv-text">
+                        To empower tourism students by providing a dedicated digital platform to voice their academic and practical experiences. We aim to collect high-quality, actionable feedback that enables educators and industry partners to continuously improve training programs, optimize curricula, and better equip students for the evolving demands of the global tourism and hospitality landscape.
+                    </p>
+                </div>
+
+                <div class="mv-card">
+                    <h2 class="mv-title">Our Vision</h2>
+                    <p class="mv-text">
+                        To become the definitive platform for student insight in tourism education, fostering a collaborative ecosystem where data-driven academic learning and exceptional practical experience align perfectly to produce world-class tourism professionals.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="faqs" class="faq-section-wrapper">
+            <div class="faq-fullwidth-card">
+                
+                <div class="faq-layout-container">
+                    <div class="faq-illustration-box">
+                        <img src="https://github.com/gavrixen/WEBDEV/blob/main/FAQVIS.png?raw=true" alt="Thinking Student Illustration">
+                    </div>
+
+                    <div class="faq-accordion-box">
+                        <h1 class="faq-main-heading">Frequently Asked Questions</h1>
+                        
+                        <div class="faq-list">
+                            <div class="faq-item open">
+                                <div class="faq-header" onclick="toggleFaq(this)">
+                                    <div class="faq-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <line x1="11" y1="2" x2="11" y2="20" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                            <line x1="2" y1="11" x2="20" y2="11" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <span class="faq-question">What is the purpose of this survey platform?</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-inner">
+                                        This platform is designed to bridge the gap between classroom learning and real-world hospitality and tourism training. By collecting insights on your academic courses and hands-on practical experiences, we can help educators optimize the curriculum to better prepare students for the global tourism industry.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-header" onclick="toggleFaq(this)">
+                                    <div class="faq-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <line x1="11" y1="2" x2="11" y2="20" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                            <line x1="2" y1="11" x2="20" y2="11" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <span class="faq-question">How long does it take to complete the survey?</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-inner">
+                                        We know student schedules are packed, so the survey is streamlined. It typically takes about 5 to 10 minutes to complete, depending on how much detailed feedback you want to share about your practical experiences.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-header" onclick="toggleFaq(this)">
+                                    <div class="faq-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <line x1="11" y1="2" x2="11" y2="20" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                            <line x1="2" y1="11" x2="20" y2="11" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <span class="faq-question">Is my personal data safe, and will my answers be confidential?</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-inner">
+                                        Absolutely. Data privacy is a top priority for us. Your specific personal information is completely protected and will never be shared. All survey results are aggregated for academic analysis, meaning your responses are analyzed as a group rather than tied to you individually. For more details, you can view our full Privacy Policy in the website footer.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-header" onclick="toggleFaq(this)">
+                                    <div class="faq-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <line x1="11" y1="2" x2="11" y2="20" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                            <line x1="2" y1="11" x2="20" y2="11" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <span class="faq-question">Do I need an account to take the survey?</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-inner">
+                                        Yes, creating an account helps ensure data integrity, meaning one valid student equals one set of responses. It also allows you to save your progress if you need to step away and finish the survey later, or log back in to view your submission history.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-header" onclick="toggleFaq(this)">
+                                    <div class="faq-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <line x1="11" y1="2" x2="11" y2="20" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                            <line x1="2" y1="11" x2="20" y2="11" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <span class="faq-question">Who can I contact if I experience technical issues?</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-inner">
+                                        If you run into any bugs, trouble logging in, or problems submitting your responses, please use the "Contact Us" link in the footer to send a quick message to our development team.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer-bar">
+        <div class="footer-links">
+            <a href="#" id="privacyLink" onclick="openModal('privacyModal', event)">Terms & Conditions</a>
+            <a href="#" id="contactLink" onclick="openModal('contactModal', event)">Contact us</a>
+        </div>
+        <div class="footer-copyright">
+            <span>@ Copyright 2026</span>
+        </div>
+    </footer>
+
+    <div id="privacyModal" class="modal-overlay" onclick="closeModalOutside(event)">
+        <div class="modal-card">
+            <button class="modal-close-btn" onclick="closeModal('privacyModal')">&times;</button>
+            <div class="modal-content-scroll">
+                <h1 class="modal-title">Terms & Conditions</h1>
+                <p class="modal-date">Effective Date: May 23, 2026</p>
+                
+                <h2 class="modal-subtitle">I. Acceptance</h2>
+                <p class="modal-paragraph">Welcome to the Tourism Management Academic & Practical Experience Survey Platform. By accessing or using this platform, you agree to these Terms & Conditions. If you do not agree, you must not use this website.</p>
+                
+                <h2 class="modal-subtitle">II. Eligibility and Registration</h2>
+                <p class="modal-paragraph">This is an institutional research tool for authorized tourism students. Registration requires accurate information, including your full name, Student ID, and institutional email. Using false credentials is strictly prohibited.</p>
+                
+                <h2 class="modal-subtitle">III. Data Collection and Usage</h2>
+                <p class="modal-paragraph">We collect personal, academic, and contact details to facilitate research and ensure platform security. Your data is used strictly for curriculum analysis, identity verification, and to maintain the integrity of survey results.</p>
+                
+                <h2 class="modal-subtitle">IV. Data Sharing and Confidentiality</h2>
+                <p class="modal-paragraph">We prioritize your privacy. All survey responses are aggregated and anonymized for academic reports; your individual answers will never be linked to your identity publicly. We do not sell or trade your personal information.</p>
+                
+                <h2 class="modal-subtitle">V. User Responsibility and System Integrity</h2>
+                <p class="modal-paragraph">You are responsible for your account security. Users must not submit fraudulent data, attempt to bypass security, or introduce malicious software. Any activity occurring under your account is your sole responsibility.</p>
+                
+                <h2 class="modal-subtitle">VI. Enforcement and Accountability</h2>
+                <p class="modal-paragraph">We log all access details to ensure traceability. Violations of these terms, including data tampering, will result in account termination and may lead to disciplinary action by institutional authorities.</p>
+                
+                <h2 class="modal-subtitle">VII. Modifications and Contact</h2>
+                <p class="modal-paragraph">We may update these terms as the platform evolves. For questions regarding your data or account management, please reach out via the contact information provided in the platform footer.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="termsModal" class="modal-overlay" onclick="closeModalOutside(event)">
+        <div class="modal-card">
+            <button class="modal-close-btn" onclick="closeModal('termsModal')">&times;</button>
+            <div class="modal-content-scroll">
+                <h1 class="modal-title">Terms of Use</h1>
+                <p class="modal-date">Effective Date: May 21, 2026</p>
+                
+                <h2 class="modal-subtitle">I. Acceptance of Terms</h2>
+                <p class="modal-paragraph">Welcome to the Tourism Management Academic & Practical Experience Survey Platform. By registering an account, accessing, or using this platform, you agree to be bound by these Terms of Use and our accompanying Privacy Policy. If you do not agree to these terms, you must not create an account or participate in any survey activities on this website.</p>
+                
+                <h2 class="modal-subtitle">II. Eligibility and Registration</h2>
+                <p class="modal-paragraph">This platform is an institutional research tool designed exclusively for authorized student researchers and participants within the tourism management program. To utilize the platform, you must complete the two-step registration process, providing accurate, current, and complete information, including your full name, official Student ID Number, year level, and institutional email address. You are strictly prohibited from registering under a false identity or using credentials that do not belong to you.</p>
+                
+                <h2 class="modal-subtitle">III. Account Security and Responsibility</h2>
+                <p class="modal-paragraph">You are entirely responsible for maintaining the confidentiality of your account password and authentication credentials. Any activity that occurs under your account is your sole responsibility. You agree to immediately notify the technical team of any unauthorized use of your account or any other breach of security. The platform administrators will not be liable for losses caused by unauthorized use of your account, and you may be held accountable for activities that compromise the digital infrastructure.</p>
+                
+                <h2 class="modal-subtitle">IV. Acceptable Use and System Integrity</h2>
+                <p class="modal-paragraph">To maintain a secure and trustworthy research environment, you agree to use the platform only for its intended academic purposes. You are bound by a strict standard of digital conduct, which includes the following requirements.</p>
+                <p class="modal-paragraph">You must provide honest, accurate, and single submissions. You are prohibited from submitting fraudulent, duplicate, or intentionally misleading survey responses.</p>
+                <p class="modal-paragraph">You must not attempt to bypass, disable, or tamper with the security frameworks, encryption, or database structures of the platform.</p>
+                <p class="modal-paragraph">You must not introduce malicious software, viruses, or code designed to disrupt, damage, or limit the functionality of the website.</p>
+                <p class="modal-paragraph">You must not use automated scripts, scraping tools, or data mining software to extract information from the platform.</p>
+                
+                <h2 class="modal-subtitle">V. Institutional Accountability and Enforcement</h2>
+                <p class="modal-paragraph">We maintain a strict stance on data integrity and infrastructure security. Student ID numbers, institutional emails, and compliance details are securely logged to ensure traceability. Any intentional disruption, unauthorized access, malicious data tampering, or attempt to submit duplicate fraudulent data will be treated as a violation of institutional conduct. We reserve the right to suspend or terminate your account access immediately and refer the logged records to official institutional authorities for disciplinary procedures.</p>
+                
+                <h2 class="modal-subtitle">VI. Intellectual Property and Content Ownership</h2>
+                <p class="modal-paragraph">The platform interface, design elements, survey frameworks, aggregated analytics, and text are the intellectual property of the development team and the institution. Survey responses are aggregated and anonymized for academic and curriculum analysis, and individual data is managed according to the Privacy Policy. You may not copy, reproduce, distribute, or create derivative works of the platform infrastructure without explicit written authorization.</p>
+                
+                <h2 class="modal-subtitle">VII. Limitation of Liability</h2>
+                <p class="modal-paragraph">This platform is provided on an as-is and as-available basis for academic research. While we implement robust administrative and technical security measures to safeguard your records, the technical team does not guarantee that the platform will be entirely error-free, uninterrupted, or immune to unauthorized digital interference. The development team and the institution shall not be held liable for any direct, indirect, incidental, or consequential damages resulting from your use or inability to use the platform.</p>
+                
+                <h2 class="modal-subtitle">VIII. Modifications to the Terms</h2>
+                <p class="modal-paragraph">We reserve the right to update or modify these Terms of Use at any time as the platform evolves or institutional regulations change. Any updates will be posted directly on this page with a revised effective date. Your continued use of the platform following the posting of changes constitutes your explicit acceptance of the updated terms.</p>
+                
+                <h2 class="modal-subtitle">IX. Contact Information</h2>
+                <p class="modal-paragraph">If you have questions regarding these Terms of Use, require technical support, or need to inquire about account management, please reach out via the technical team contact framework provided in the platform footer.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="contactModal" class="modal-overlay" onclick="closeModalOutside(event)">
+        <div class="modal-card">
+            <button class="modal-close-btn" onclick="closeModal('contactModal')">&times;</button>
+            <div class="modal-content-scroll">
+                <h1 class="modal-title">Contact Us</h1>
+                <p class="modal-date">Tech Support</p>
+                
+                <h2 class="modal-subtitle">Contact Our Technical Team</h2>
+                <p class="modal-paragraph">If you have any questions regarding our Privacy Policy or Terms of Use, require technical assistance with your account, or need support while navigating the survey platform, please do not hesitate to get in touch with us. The development and research group is dedicated to ensuring a smooth, secure, and accessible experience for all student participants.</p>
+                
+                <h2 class="modal-subtitle">Get in Touch</h2>
+                <p class="modal-paragraph">You can reach out to our team directly through our official communication channels. For general inquiries, system troubleshooting, or specific account and data management requests, please send an email to <strong>group6surveysite@mail.com</strong>.</p>
+                <p class="modal-paragraph">If you require urgent assistance or need to report an active issue regarding your registration or system compliance details, you can contact our technical support hotline at <strong>0921-345-3467</strong>.</p>
+
+                <h2 class="modal-subtitle">Development Team</h2>
+                <p class="modal-paragraph">* <strong>FORMENTO,</strong> Antonette F.</p>
+                <p class="modal-paragraph">* <strong>LILAGAN,</strong> Savina T.</p>
+                <p class="modal-paragraph">* <strong>LICUP,</strong> Mikaella Jezel J.</p>
+                <p class="modal-paragraph">* <strong>PALOMO,</strong> John Gabriel P.</p>
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMobileNav() {
+            const btn = document.getElementById('hamburgerBtn');
+            const drawer = document.getElementById('mobileNavDrawer');
+            btn.classList.toggle('open');
+            drawer.classList.toggle('open');
+        }
+
+        function closeMobileNav() {
+            document.getElementById('hamburgerBtn').classList.remove('open');
+            document.getElementById('mobileNavDrawer').classList.remove('open');
+        }
+
+        function toggleFaq(headerElement) {
+            const currentItem = headerElement.closest('.faq-item');
+            const currentState = currentItem.classList.contains('open');
+            currentItem.classList.toggle('open', !currentState);
+        }
+
+        function openModal(modalId, event) {
+            if (event) event.preventDefault(); 
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.classList.add('modal-open'); 
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                const activeModals = document.querySelectorAll('.modal-overlay.active');
+                if (activeModals.length === 0) {
+                    document.body.classList.remove('modal-open'); 
+                }
+            }
+        }
+
+        function closeModalOutside(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeModal(event.target.id);
+            }
+        }
+    </script>
+
+</body>
+</html>

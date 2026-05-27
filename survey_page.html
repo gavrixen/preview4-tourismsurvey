@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Page | EduTour</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="survey_page.css">
+    <style>
+        @media (max-width: 560px) {
+            #surveyProgressBar .surv-step span { font-size: 10px !important; }
+            #surveyProgressBar .surv-step div { width: 28px !important; height: 28px !important; font-size: 13px !important; }
+        }
+        @media (max-width: 380px) {
+            #surveyProgressBar .surv-step span { display: none; }
+        }
+    </style>
+</head>
+<body class="dashboard-body-layout">
+
+    <button class="mobile-sidebar-toggle" id="sidebarToggle" onclick="toggleMobileSidebar()" aria-label="Toggle sidebar"><span></span><span></span><span></span></button>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+
+    <aside class="dash-sidebar" id="dashSidebar">
+        <div class="sidebar-top-branding">
+            <h2 class="sidebar-logo">EduTour:<br>Ano, tara?</h2>
+        </div>
+        
+        <nav class="sidebar-menu-links">
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="#" onclick="openSidebarModal('sidebarAboutModal', event)">About us</a></li>
+                <li><a href="#" onclick="openSidebarModal('sidebarContactModal', event)">Contact us</a></li>
+                <li><a href="#" onclick="openSidebarModal('sidebarFaqsModal', event)">FAQs</a></li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer-logout">
+            <a href="#" onclick="openLogoutConfirmation(event)" class="btn-sidebar-logout">Log out</a>
+        </div>
+    </aside>
+
+    <main class="dash-main-workspace">
+        <div class="ts-workspace-wrapper">
+
+            <!-- PROGRESS BAR -->
+            <div id="surveyProgressBar" style="width:100%;max-width:1100px;margin-bottom:18px;display:none;">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                    <div class="surv-step" id="progStep0" style="display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;">
+                        <div style="width:36px;height:36px;border-radius:50%;background:#0035ad;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;font-family:'Nunito',sans-serif;transition:background 0.2s;">1</div>
+                        <span style="font-size:12px;font-weight:700;color:#0035ad;font-family:'Nunito',sans-serif;text-align:center;">Personal Info</span>
+                    </div>
+                    <div style="flex:1;height:3px;background:#0035ad;border-radius:2px;margin-bottom:20px;transition:background 0.2s;" id="progLine01"></div>
+                    <div class="surv-step" id="progStep1" style="display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;">
+                        <div style="width:36px;height:36px;border-radius:50%;background:#c8d6f5;color:#0035ad;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;font-family:'Nunito',sans-serif;transition:background 0.2s;">2</div>
+                        <span style="font-size:12px;font-weight:700;color:#a0aec0;font-family:'Nunito',sans-serif;text-align:center;">Tourism Intro</span>
+                    </div>
+                    <div style="flex:1;height:3px;background:#c8d6f5;border-radius:2px;margin-bottom:20px;transition:background 0.2s;" id="progLine12"></div>
+                    <div class="surv-step" id="progStep2" style="display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;">
+                        <div style="width:36px;height:36px;border-radius:50%;background:#c8d6f5;color:#0035ad;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;font-family:'Nunito',sans-serif;transition:background 0.2s;">3</div>
+                        <span style="font-size:12px;font-weight:700;color:#a0aec0;font-family:'Nunito',sans-serif;text-align:center;">Tourism Qs</span>
+                    </div>
+                    <div style="flex:1;height:3px;background:#c8d6f5;border-radius:2px;margin-bottom:20px;transition:background 0.2s;" id="progLine23"></div>
+                    <div class="surv-step" id="progStep3" style="display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;">
+                        <div style="width:36px;height:36px;border-radius:50%;background:#c8d6f5;color:#0035ad;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;font-family:'Nunito',sans-serif;transition:background 0.2s;">4</div>
+                        <span style="font-size:12px;font-weight:700;color:#a0aec0;font-family:'Nunito',sans-serif;text-align:center;">Satisfaction</span>
+                    </div>
+                </div>
+            </div>
+
+            <form id="ts-page0" class="ts-page ts-active personal-page-grid-container" onsubmit="validateFormSubmission(event)">
+                
+                <div class="personal-form-section-card">
+                    <h1 class="personal-section-heading">Personal Information</h1>
+                    
+                    <div class="terms-compliance-banner-strip">
+                        <div class="compliance-checkbox-custom-box">
+                            <input type="checkbox" id="acceptTerms" class="compliance-native-checkbox" required>
+                            <span class="compliance-checkbox-visual-marker"></span>
+                        </div>
+                        <label for="acceptTerms" class="compliance-banner-text">Accept terms of use and privacy policy before filling up.</label>
+                        <div class="compliance-info-icon-marker">i</div>
+                    </div>
+
+                    <div class="pi-row pi-row-4col">
+                        <div class="input-field-block">
+                            <label class="input-label-text">First Name</label>
+                            <input type="text" name="firstname" class="custom-input-box" placeholder="Enter first name" required oninput="validateTextField(this)">
+                            <span class="field-error-msg text-left-override" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none;">Please enter a valid first name (letters only).</span>
+                        </div>
+                        <div class="input-field-block">
+                            <label class="input-label-text">Last Name</label>
+                            <input type="text" name="lastname" class="custom-input-box" placeholder="Enter last name" required oninput="validateTextField(this)">
+                            <span class="field-error-msg text-left-override" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none;">Please enter a valid last name (letters only).</span>
+                        </div>
+                        <div class="input-field-block">
+                            <label class="input-label-text">Date of Birth</label>
+                            <div class="dob-single-wrapper">
+                                <input type="text" id="dobInput" name="dob" class="custom-input-box dob-text-input" placeholder="mm/dd/yyyy" maxlength="10" required oninput="formatDobInput(this)" onblur="validateDobField(this)">
+                                <button type="button" class="dob-calendar-btn" onclick="toggleDobPicker()" aria-label="Open calendar">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="4" width="18" height="18" rx="2" stroke="#555" stroke-width="2"/><line x1="3" y1="9" x2="21" y2="9" stroke="#555" stroke-width="2"/><line x1="8" y1="2" x2="8" y2="6" stroke="#555" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="2" x2="16" y2="6" stroke="#555" stroke-width="2" stroke-linecap="round"/></svg>
+                                </button>
+                                <div id="dobPickerDropdown" class="dob-picker-dropdown" style="display:none;">
+                                    <div class="dob-picker-nav">
+                                        <button type="button" class="dob-nav-btn" onclick="dobChangeMonth(-1)">&#8249;</button>
+                                        <span id="dobPickerLabel" class="dob-picker-month-label"></span>
+                                        <button type="button" class="dob-nav-btn" onclick="dobChangeMonth(1)">&#8250;</button>
+                                    </div>
+                                    <div id="dobPickerGrid" class="dob-picker-grid"></div>
+                                    <div class="dob-picker-year-row">
+                                        <label class="dob-picker-year-label">Year:</label>
+                                        <select id="dobYearSelect" class="dob-picker-year-select" onchange="dobChangeYear(this.value)"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="field-error-msg text-left-override" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none;">Please enter a valid date of birth (mm/dd/yyyy).</span>
+                        </div>
+                        <div class="input-field-block" id="gender-dynamic-area">
+                            <label class="input-label-text">Gender</label>
+                            <div class="select-wrapper">
+                                <select name="gender" id="genderSelect" class="custom-input-box select-field-box" required onchange="handleGenderChange(this)">
+                                    <option value="" disabled selected>Select gender</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Non-binary</option>
+                                    <option>Prefer not to say</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <span class="field-error-msg text-left-override" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none;">Please select your gender.</span>
+                        </div>
+                    </div>
+
+                    <div class="pi-row pi-row-3col">
+                        <div class="input-field-block">
+                            <label class="input-label-text">Year</label>
+                            <div class="select-wrapper">
+                                <select name="s_year" class="custom-input-box select-field-box" required onchange="validateSelectField(this)">
+                                    <option value="" disabled selected>Select year</option>
+                                    <option>1st Year</option>
+                                    <option>2nd Year</option>
+                                    <option>3rd Year</option>
+                                    <option>4th Year</option>
+                                </select>
+                            </div>
+                            <span class="field-error-msg text-left-override" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none;">Please select your academic year level.</span>
+                        </div>
+                        <div class="input-field-block">
+                            <label class="input-label-text">Course</label>
+                            <input type="text" name="course" class="custom-input-box" placeholder="Enter course" required oninput="validateGeneralField(this)">
+                            <span class="field-error-msg text-left-override" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none;">This field is required.</span>
+                        </div>
+                        <div class="input-field-block">
+                            <label class="input-label-text">Section</label>
+                            <input type="text" name="section" class="custom-input-box" placeholder="Enter section" required oninput="validateGeneralField(this)">
+                            <span class="field-error-msg text-left-override" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none;">This field is required.</span>
+                        </div>
+                    </div>
+
+                    <div class="pi-row pi-row-1col">
+                        <div class="input-field-block">
+                            <label class="input-label-text">University Name</label>
+                            <input type="text" name="university" class="custom-input-box" placeholder="Enter university name" required oninput="validateGeneralField(this)">
+                            <span class="field-error-msg text-left-override" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none;">This field is required.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="personal-form-section-card">
+                    <h1 class="personal-section-heading">Skills Evaluation</h1>
+                    
+                    <div class="evaluation-vertical-inputs-stack">
+                        <div class="input-field-block" id="skills-dynamic-area">
+                            <label class="input-label-text">Which skills do you feel confident in?</label>
+                            <div class="select-wrapper">
+                                <select name="skills_confident" class="custom-input-box select-field-box" required onchange="checkDynamicSkillOther(this)">
+                                    <option value="" disabled selected>Select skill</option>
+                                    <option>Communication</option>
+                                    <option>Customer Service</option>
+                                    <option>Tour Guiding</option>
+                                    <option>Planning</option>
+                                    <option value="other">Other...</option>
+                                </select>
+                            </div>
+                            <span class="field-error-msg text-left-override" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none;">Please select a skill option.</span>
+                        </div>
+                        <div class="input-field-block">
+                            <label class="input-label-text">Which skills do you think you still need to improve?</label>
+                            <input type="text" name="skills_improvement" class="custom-input-box" placeholder="Type skills here" required oninput="validateGeneralField(this)">
+                            <span class="field-error-msg text-left-override" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none;">This field is required.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="personal-form-section-card">
+                    <h1 class="personal-section-heading">Experience Evaluation</h1>
+                    
+                    <div class="evaluation-vertical-inputs-stack">
+                        <div class="input-field-block" id="spec-dynamic-area">
+                            <label class="input-label-text">What is your specialization?</label>
+                            <div class="select-wrapper">
+                                <select name="specialization" class="custom-input-box select-field-box" required onchange="checkDynamicSpecOther(this)">
+                                    <option value="" disabled selected>Select specialization</option>
+                                    <option>Tourism Management</option>
+                                    <option>Hospitality</option>
+                                    <option>Travel Services</option>
+                                    <option value="other">Other...</option>
+                                </select>
+                            </div>
+                            <span class="field-error-msg text-left-override" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none;">Please select your specialization.</span>
+                        </div>
+                        <div class="input-field-block">
+                            <label class="input-label-text">Are you currently taking any tourism-related internship or OJT?</label>
+                            <div class="select-wrapper">
+                                <select name="ojt_status" class="custom-input-box select-field-box" required onchange="validateSelectField(this)">
+                                    <option value="" disabled selected>Select Yes/No</option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </div>
+                            <span class="field-error-msg text-left-override" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none;">Please select an option.</span>
+                        </div>
+                        <div class="input-field-block">
+                            <label class="input-label-text">How would you rate your overall learning experience in your course?</label>
+                            <div class="select-wrapper">
+                                <select name="learning_rating" class="custom-input-box select-field-box" required onchange="validateSelectField(this)">
+                                    <option value="" disabled selected>Select rating</option>
+                                    <option value="5">(5) ⭐⭐⭐⭐⭐</option>
+                                    <option value="4">(4) ⭐⭐⭐⭐</option>
+                                    <option value="3">(3) ⭐⭐⭐</option>
+                                    <option value="2">(2) ⭐⭐</option>
+                                    <option value="1">(1) ⭐</option>
+                                </select>
+                            </div>
+                            <span class="field-error-msg text-left-override" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none;">Please select a rating score.</span>
+                        </div>
+                        <div class="input-field-block">
+                            <label class="input-label-text">Do you feel prepared to work in the tourism industry?</label>
+                            <input type="text" name="overall_exp" class="custom-input-box" placeholder="Type here" required oninput="validateGeneralField(this)">
+                            <span class="field-error-msg text-left-override" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none;">This field is required.</span>
+                        </div>
+                        
+                        <div class="survey-action-footer-placement">
+                            <button type="submit" class="primary-login-btn personal-survey-submit-btn-placeholder" style="max-width: 450px;">Proceed to Tourism Questions</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+            <div class="ts-page" id="ts-page1">
+                <div class="ts-form-section-card">
+                    <h1 class="ts-main-display-heading">Tourism Engagement & Experience Assessment</h1>
+                    <p class="ts-welcome-explainer-text">This short survey will help improve tourism awareness & experiences.</p>
+                    <div class="ts-action-footer-placement">
+                        <button class="ts-primary-action-btn" onclick="nextPage(2)">Continue Survey</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ts-page" id="ts-page2">
+                <div class="ts-form-section-card">
+                    <h1 class="ts-main-display-heading">Tourism Questions</h1>
+
+                    <div class="ts-vertical-inputs-grid-stack">
+                        <div class="input-field-block">
+                            <label class="input-label-text">Have you participated in tourism activities? (tours, events, seminars)</label>
+                            <div class="select-wrapper">
+                                <select id="ts_status" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                    <option value="" disabled selected>-- YES or NO --</option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </div>
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select an option.</span>
+                        </div>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">Which tourist destination did you visit?</label>
+                            <input id="ts_dest" class="custom-input-box" type="text" required oninput="validateField(this)">
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">This field is required.</span>
+                        </div>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">When did you visit?</label>
+                            <input id="ts_date" class="custom-input-box" type="date" required oninput="validateField(this)">
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please enter a valid date.</span>
+                        </div>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">How did you hear about this place?</label>
+                            <input id="ts_source" class="custom-input-box" type="text" placeholder="Social media, friends, ads..." required oninput="validateField(this)">
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">This field is required.</span>
+                        </div>
+
+                        <h2 class="ts-sub-section-title spacing-divider-top">Experience Rating</h2>
+
+                        <div class="ts-asymmetric-input-row-grid">
+                            <div class="input-field-block">
+                                <label class="input-label-text">Overall Experience</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_rate_overall" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- Select Rating --</option>
+                                        <option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select a rating option.</span>
+                            </div>
+
+                            <div class="input-field-block">
+                                <label class="input-label-text">Cleanliness</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_rate_clean" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- Select Rating --</option>
+                                        <option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select a rating option.</span>
+                            </div>
+                        </div>
+
+                        <div class="ts-asymmetric-input-row-grid">
+                            <div class="input-field-block">
+                                <label class="input-label-text">Safety</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_rate_safety" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- Select Rating --</option>
+                                        <option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select a rating option.</span>
+                            </div>
+
+                            <div class="input-field-block">
+                                <label class="input-label-text">Accessibility</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_rate_access" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- Select Rating --</option>
+                                        <option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select a rating option.</span>
+                            </div>
+                        </div>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">Friendliness of locals/staff</label>
+                            <div class="select-wrapper">
+                                <select id="ts_rate_staff" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                    <option value="" disabled selected>-- Select Rating --</option>
+                                    <option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option>
+                                </select>
+                            </div>
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select a rating option.</span>
+                        </div>
+
+                        <h2 class="ts-sub-section-title spacing-divider-top">Services & Facilities</h2>
+
+                        <div class="ts-asymmetric-input-row-grid">
+                            <div class="input-field-block">
+                                <label class="input-label-text">Are you satisfied with facilities?</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_satisfied_facilities" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- YES or NO --</option>
+                                        <option>Yes</option><option>No</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select an option.</span>
+                            </div>
+
+                            <div class="input-field-block">
+                                <label class="input-label-text">Were prices reasonable?</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_prices_reasonable" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- YES or NO --</option>
+                                        <option>Yes</option><option>No</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select an option.</span>
+                            </div>
+                        </div>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">Was signage clear and helpful?</label>
+                            <div class="select-wrapper">
+                                <select id="ts_signage_clear" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                    <option value="" disabled selected>-- YES or NO --</option>
+                                    <option>Yes</option><option>No</option>
+                                </select>
+                            </div>
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select an option.</span>
+                        </div>
+                    </div>
+
+                    <div class="ts-double-action-navigation-footer">
+                        <button type="button" class="ts-secondary-outline-btn" onclick="nextPage(0)">Back</button>
+                        <button type="button" class="ts-primary-action-btn button-split-width" onclick="validateAndGoToPage3()">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ts-page" id="ts-page3">
+                <div class="ts-form-section-card">
+                    <h1 class="ts-main-display-heading">Satisfaction & Recommendation</h1>
+
+                    <div class="ts-vertical-inputs-grid-stack">
+                        <div class="input-field-block">
+                            <label class="input-label-text">What did you like most about the place?</label>
+                            <textarea id="ts_like_most" class="custom-input-box text-area-input-box" rows="3" required oninput="validateField(this)"></textarea>
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">This field is required.</span>
+                        </div>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">What did you dislike or find lacking?</label>
+                            <textarea id="ts_dislike" class="custom-input-box text-area-input-box" rows="3" required oninput="validateField(this)"></textarea>
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">This field is required.</span>
+                        </div>
+
+                        <div class="ts-asymmetric-input-row-grid">
+                            <div class="input-field-block">
+                                <label class="input-label-text">Would you recommend this place?</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_recommend" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- YES or NO --</option>
+                                        <option>Yes</option><option>No</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select an option.</span>
+                            </div>
+
+                            <div class="input-field-block">
+                                <label class="input-label-text">Would you visit again?</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_visit_again" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- YES or NO --</option>
+                                        <option>Yes</option><option>No</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select an option.</span>
+                            </div>
+                        </div>
+
+                        <h2 class="ts-sub-section-title spacing-divider-top">Suggestions</h2>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">What improvements would you suggest?</label>
+                            <textarea id="ts_suggestions" class="custom-input-box text-area-input-box" rows="3" required oninput="validateField(this)"></textarea>
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">This field is required.</span>
+                        </div>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">Additional comments</label>
+                            <textarea id="ts_comments" class="custom-input-box text-area-input-box" rows="3" required oninput="validateField(this)"></textarea>
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">This field is required.</span>
+                        </div>
+                    </div>
+
+                    <div class="ts-double-action-navigation-footer">
+                        <button type="button" class="ts-secondary-outline-btn" onclick="nextPage(2)">Back</button>
+                        <button type="button" class="ts-primary-action-btn button-split-width" onclick="submitForm()">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="welcomeModal" class="welcome-modal-overlay" onclick="handleWelcomeOverlayClick(event)">
+        <div class="welcome-modal-card">
+            <h1 class="welcome-modal-heading">Welcome to your Personal Assessment!</h1>
+            <p class="welcome-modal-subtext">This short survey will help improve tourism experiences.</p>
+            <div class="welcome-modal-terms-box">
+                <p><strong>Terms of Use &amp; Privacy Policy Agreement</strong></p>
+                <p><strong>I. Data Collection &amp; Purpose:</strong> You voluntarily provide personal, academic, and evaluation data (Part 1) and tourism-related survey responses (Part 2). This information is collected exclusively for institutional research to analyze student experiences and improve tourism curriculum development.</p>
+                <p><strong>II. Privacy &amp; Anonymity:</strong> We are committed to your privacy. Your individual responses will be aggregated and anonymized for academic reports; your personal identity will never be linked to your specific survey answers in any public or academic publication.</p>
+                <p><strong>III. Data Integrity &amp; Security:</strong> You agree to provide honest, accurate information. You are prohibited from submitting fraudulent or duplicate responses. We implement robust security measures to protect your data, but you remain responsible for maintaining the confidentiality of your account credentials.</p>
+                <p><strong>IV. Institutional Use:</strong> Collected data may be accessed by authorized academic authorities for curriculum optimization. We do not sell or trade your personal information to third-party commercial entities.</p>
+            </div>
+            <div class="welcome-modal-btn-row">
+                <button type="button" class="welcome-btn-back" onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+                <button type="button" class="welcome-btn-continue" onclick="closeWelcomeModal()">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="surveySubmitConfirmModal" class="modal-overlay" onclick="closeSurveyConfirmOutside(event)">
+        <div class="modal-card success-modal-card" style="max-width: 500px; padding: 40px; height: auto;">
+            <h1 class="success-modal-heading" style="font-size: 34px; font-weight: 900; margin-bottom: 12px; color: #1a1a1a;">Submit survey?</h1>
+            <p class="success-modal-body-text" style="font-size: 15px; color: #444444; margin-bottom: 25px; line-height: 1.5;">
+                Are you sure you want to finalize your responses? You won't be able to edit your answers after this.
+            </p>
+            <div class="confirm-action-buttons-group" style="gap: 14px; width: 100%;">
+                <button type="button" class="confirm-secondary-btn-outline" style="height: 48px; font-size: 16px;" onclick="closeSurveyConfirmModal()">Cancel</button>
+                <button type="button" class="confirm-primary-btn-solid" style="height: 48px; font-size: 16px;" onclick="commitSurveySubmissionResponse()">Okay</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="surveySubmitSuccessModal" class="modal-overlay" onclick="closeSurveySuccessOutside(event)">
+        <div class="modal-card success-modal-card" style="max-width: 480px; padding: 45px 40px; height: auto;">
+            <button class="modal-close-btn success-close-x" onclick="closeSurveySuccessModal()">&times;</button>
+            <div class="success-icon-celebration-wrapper" style="font-size: 48px; margin-bottom: 15px;">🎉</div>
+            <h1 class="success-modal-heading" style="font-size: 36px; font-weight: 900; margin-bottom: 12px; color: #1a1a1a;">Thank you!</h1>
+            <p class="success-modal-body-text" style="font-size: 15px; color: #444444; margin-bottom: 28px; line-height: 1.5;">
+                Your survey response has been successfully submitted.<br><span style="font-weight: 700; color: #1a1a1a;">What would you like to do next?</span>
+            </p>
+            <div class="confirm-action-buttons-group" style="gap: 14px; width: 100%;">
+                <button type="button" class="confirm-secondary-btn-outline" style="height: 48px; font-size: 15px;" onclick="routeUserToDashboard()">Go to Dashboard</button>
+                <button type="button" class="confirm-primary-btn-solid" style="height: 48px; font-size: 15px;" onclick="openSubmittedResponseSummaryView()">View my response</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="submittedResponseSummaryViewModal" class="modal-overlay" onclick="closeSummaryViewOutside(event)">
+        <div class="modal-card" style="max-width:640px;padding:40px;height:85vh;border-radius:24px;background-color:#ffffff;">
+            <button class="modal-close-btn" style="top:20px;right:25px;font-size:30px;" onclick="closeSummaryViewModal()">&times;</button>
+            <div class="modal-content-scroll" style="padding-right:5px;">
+                <h1 style="font-size:32px;font-weight:900;color:#1a1a1a;text-align:center;margin-bottom:30px;letter-spacing:-0.5px;">Your Survey Response</h1>
+
+                <div style="display:flex;flex-direction:column;gap:24px;width:100%;">
+
+                    <!-- SECTION: Personal Information -->
+                    <div>
+                        <h3 style="font-size:18px;font-weight:900;color:#0035ad;margin-bottom:14px;letter-spacing:-0.3px;padding-bottom:8px;border-bottom:2px solid #e8eef8;">Personal Information</h3>
+                        <div style="display:flex;flex-direction:column;gap:10px;">
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">Full Name:</span>
+                                <span id="viewRepFullName" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">Date of Birth:</span>
+                                <span id="viewRepDob" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">Gender:</span>
+                                <span id="viewRepGender" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">Year Level:</span>
+                                <span id="viewRepYear" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">Course:</span>
+                                <span id="viewRepCourse" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">Section:</span>
+                                <span id="viewRepSection" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">University:</span>
+                                <span id="viewRepUniversity" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION: Skills Evaluation -->
+                    <div>
+                        <h3 style="font-size:18px;font-weight:900;color:#0035ad;margin-bottom:14px;letter-spacing:-0.3px;padding-bottom:8px;border-bottom:2px solid #e8eef8;">Skills Evaluation</h3>
+                        <div style="display:flex;flex-direction:column;gap:10px;">
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">Confident Skill:</span>
+                                <span id="viewRepSkillConfident" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                            <div style="background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;display:block;margin-bottom:6px;">Skills to Improve:</span>
+                                <span id="viewRepSkillImprovement" style="font-weight:700;color:#0035ad;font-size:14px;display:block;word-break:break-word;">N/A</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION: Experience Evaluation -->
+                    <div>
+                        <h3 style="font-size:18px;font-weight:900;color:#0035ad;margin-bottom:14px;letter-spacing:-0.3px;padding-bottom:8px;border-bottom:2px solid #e8eef8;">Experience Evaluation</h3>
+                        <div style="display:flex;flex-direction:column;gap:10px;">
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">Specialization:</span>
+                                <span id="viewRepSpecialization" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">OJT / Internship:</span>
+                                <span id="viewRepOjt" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">Learning Experience Rating:</span>
+                                <span id="viewRepLearningRating" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                            <div style="background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;display:block;margin-bottom:6px;">Preparedness for Tourism Industry:</span>
+                                <span id="viewRepOverallExp" style="font-weight:700;color:#0035ad;font-size:14px;display:block;word-break:break-word;">N/A</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION: Tourism Survey -->
+                    <div>
+                        <h3 style="font-size:18px;font-weight:900;color:#0035ad;margin-bottom:14px;letter-spacing:-0.3px;padding-bottom:8px;border-bottom:2px solid #e8eef8;">Tourism Survey</h3>
+                        <div style="display:flex;flex-direction:column;gap:10px;">
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">Participated in tourism activities:</span>
+                                <span id="viewRepStatus" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">Destination Visited:</span>
+                                <span id="viewRepDest" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">Visit Date:</span>
+                                <span id="viewRepDate" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;background-color:#f8fafc;padding:10px 14px;border-radius:6px;gap:12px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;flex-shrink:0;">How did you hear about this place:</span>
+                                <span id="viewRepSource" style="font-weight:700;color:#0035ad;font-size:14px;text-align:right;">N/A</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION: Experience Ratings -->
+                    <div>
+                        <h3 style="font-size:18px;font-weight:900;color:#0035ad;margin-bottom:14px;letter-spacing:-0.3px;padding-bottom:8px;border-bottom:2px solid #e8eef8;">Experience Rating</h3>
+                        <div style="display:flex;flex-direction:column;gap:10px;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;">Overall Experience:</span>
+                                <span id="viewRepRatingOverall" style="font-weight:800;color:#0035ad;font-size:14px;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;">Cleanliness:</span>
+                                <span id="viewRepRatingClean" style="font-weight:800;color:#0035ad;font-size:14px;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;">Safety:</span>
+                                <span id="viewRepRatingSafety" style="font-weight:800;color:#0035ad;font-size:14px;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;">Accessibility:</span>
+                                <span id="viewRepRatingAccess" style="font-weight:800;color:#0035ad;font-size:14px;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;">Friendliness of Locals/Staff:</span>
+                                <span id="viewRepRatingStaff" style="font-weight:800;color:#0035ad;font-size:14px;">N/A</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION: Services & Facilities -->
+                    <div>
+                        <h3 style="font-size:18px;font-weight:900;color:#0035ad;margin-bottom:14px;letter-spacing:-0.3px;padding-bottom:8px;border-bottom:2px solid #e8eef8;">Services &amp; Facilities</h3>
+                        <div style="display:flex;flex-direction:column;gap:10px;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;">Satisfied with facilities:</span>
+                                <span id="viewRepFacilities" style="font-weight:800;color:#0035ad;font-size:14px;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;">Prices were reasonable:</span>
+                                <span id="viewRepPrices" style="font-weight:800;color:#0035ad;font-size:14px;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;">Signage was clear and helpful:</span>
+                                <span id="viewRepSignage" style="font-weight:800;color:#0035ad;font-size:14px;">N/A</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION: Satisfaction & Recommendation -->
+                    <div>
+                        <h3 style="font-size:18px;font-weight:900;color:#0035ad;margin-bottom:14px;letter-spacing:-0.3px;padding-bottom:8px;border-bottom:2px solid #e8eef8;">Satisfaction &amp; Recommendation</h3>
+                        <div style="display:flex;flex-direction:column;gap:10px;">
+                            <div style="background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;display:block;margin-bottom:6px;">What I liked most:</span>
+                                <span id="viewRepLikeMost" style="font-weight:700;color:#0035ad;font-size:14px;display:block;word-break:break-word;">N/A</span>
+                            </div>
+                            <div style="background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;display:block;margin-bottom:6px;">What I disliked or found lacking:</span>
+                                <span id="viewRepDislike" style="font-weight:700;color:#0035ad;font-size:14px;display:block;word-break:break-word;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;">Would recommend this place:</span>
+                                <span id="viewRepRecommend" style="font-weight:800;color:#0035ad;font-size:14px;">N/A</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;">Would visit again:</span>
+                                <span id="viewRepVisitAgain" style="font-weight:800;color:#0035ad;font-size:14px;">N/A</span>
+                            </div>
+                            <div style="background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;display:block;margin-bottom:6px;">Suggested improvements:</span>
+                                <span id="viewRepSuggestions" style="font-weight:700;color:#0035ad;font-size:14px;display:block;word-break:break-word;">N/A</span>
+                            </div>
+                            <div style="background-color:#f8fafc;padding:10px 14px;border-radius:6px;">
+                                <span style="font-weight:700;color:#334155;font-size:14px;display:block;margin-bottom:6px;">Additional comments:</span>
+                                <span id="viewRepComments" style="font-weight:700;color:#0035ad;font-size:14px;display:block;word-break:break-word;">N/A</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <button type="button" class="primary-login-btn" style="margin-top:35px;height:50px;font-size:16px;width:100%;" onclick="closeSummaryViewModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="logoutConfirmationModal" class="modal-overlay" onclick="closeLogoutModalOutside(event)">
+        <div class="modal-card success-modal-card" style="max-width: 440px; padding: 40px; height: auto;">
+            <button class="modal-close-btn success-close-x" onclick="closeLogoutModal()">&times;</button>
+            <div class="success-icon-celebration-wrapper" style="font-size: 44px; margin-bottom: 15px;">👋</div>
+            <h1 class="success-modal-heading" style="font-size: 26px; margin-bottom: 12px;">Logging Out?</h1>
+            <p class="success-modal-body-text" style="margin-bottom: 25px; font-size: 15px;">Are you sure you want to end your session and return to the main landing page?</p>
+            <div class="confirm-action-buttons-group" style="gap: 12px;">
+                <button type="button" class="confirm-secondary-btn-outline" style="height: 46px; font-size: 15px;" onclick="closeLogoutModal()">Cancel</button>
+                <button type="button" class="confirm-primary-btn-solid" style="height: 46px; font-size: 15px; background-color: #d32f2f; box-shadow: 0 4px 12px rgba(211,47,47,0.25);" onclick="executeFinalSessionLogout()">Log Out</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="sidebarAboutModal" class="modal-overlay" onclick="closeSidebarModalOutside(event)">
+        <div class="modal-card" style="max-width: 850px; padding: 40px; height: 80vh;">
+            <button class="modal-close-btn" onclick="closeSidebarModal('sidebarAboutModal')">&times;</button>
+            <div class="modal-content-scroll">
+                <h1 class="modal-title" style="font-size: 36px; color: #0038A8; font-weight: 900; margin-bottom: 20px;">About us</h1>
+                <p class="modal-paragraph" style="font-size: 16px; color: #444444; line-height: 1.6; text-align: justify; margin-bottom: 30px;">
+                    Welcome to our specialized platform designed exclusively for the next generation of tourism and hospitality professionals. We believe that excellent education relies on a strong connection between classroom theory and real-world application. This tool gathers and analyzes the diverse experiences of tourism students navigating their degrees, field activities, and industry placements. By capturing these insights, we help shape a more responsive, impactful educational journey that better prepares students for the global workforce.
+                </p>
+                <div style="display: flex; gap: 24px; flex-direction: row; margin-top: 20px;" class="confirm-modal-split-layout">
+                    <div style="flex: 1; background-color: #f8fafc; padding: 25px; border-radius: 16px; border: 1px solid #e2e8f0;">
+                        <h2 style="font-size: 22px; font-weight: 800; color: #0038A8; margin-bottom: 12px;">Our Mission</h2>
+                        <p style="font-size: 14px; color: #333333; line-height: 1.6; text-align: justify;">To empower tourism students by providing a dedicated digital platform to voice their academic and practical experiences. We aim to collect high-quality, actionable feedback that enables educators and industry partners to continuously improve training programs, optimize curricula, and better equip students for the evolving demands of the global tourism and hospitality landscape.</p>
+                    </div>
+                    <div style="flex: 1; background-color: #f8fafc; padding: 25px; border-radius: 16px; border: 1px solid #e2e8f0;">
+                        <h2 style="font-size: 22px; font-weight: 800; color: #0038A8; margin-bottom: 12px;">Our Vision</h2>
+                        <p style="font-size: 14px; color: #333333; line-height: 1.6; text-align: justify;">To become the definitive platform for student insight in tourism education, fostering a collaborative ecosystem where data-driven academic learning and exceptional practical experience align perfectly to produce world-class tourism professionals.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="sidebarContactModal" class="modal-overlay" onclick="closeSidebarModalOutside(event)">
+        <div class="modal-card" style="max-width: 750px; padding: 40px; height: auto; max-height: 85vh;">
+            <button class="modal-close-btn" onclick="closeSidebarModal('sidebarContactModal')">&times;</button>
+            <div class="modal-content-scroll">
+                <h1 class="modal-title" style="font-size: 36px; color: #0038A8; font-weight: 900; margin-bottom: 15px;">Contact Us</h1>
+                <p class="modal-date" style="font-weight: 700; color: #666666; margin-bottom: 25px;">TECH SUPPORT</p>
+                
+                <h2 class="modal-subtitle" style="font-size: 20px; font-weight: 800; color: #1a1a1a; margin-top: 20px; margin-bottom: 10px;">Contact Our Technical Team</h2>
+                <p class="modal-paragraph" style="font-size: 15px; color: #333333; line-height: 1.65; margin-bottom: 20px; text-align: justify;">If you have any questions regarding our Privacy Policy or Terms of Use, require technical assistance with your account, or need support while navigating the survey platform, please do not hesitate to get in touch with us. The development and research group is dedicated to ensuring a smooth, secure, and accessible experience for all student participants.</p>
+                
+                <h2 class="modal-subtitle" style="font-size: 20px; font-weight: 800; color: #1a1a1a; margin-top: 20px; margin-bottom: 10px;">Get in Touch</h2>
+                <p class="modal-paragraph" style="font-size: 15px; color: #333333; line-height: 1.65; margin-bottom: 12px; text-align: justify;">You can reach out to our team directly through our official communication channels. For general inquiries, system troubleshooting, or specific account and data management requests, please send an email to <strong>group6surveysite@mail.com</strong>.</p>
+                <p class="modal-paragraph" style="font-size: 15px; color: #333333; line-height: 1.65; margin-bottom: 14px; text-align: justify;">If you require urgent assistance or need to report an active issue regarding your registration or system compliance details, you can contact our technical support hotline at <strong>0921-345-3467</strong>.</p>
+
+                                <h2 class="modal-subtitle" style="font-size: 20px; font-weight: 800; color: #1a1a1a; margin-top: 20px; margin-bottom: 10px;">Development Team</h2>
+                <p class="modal-paragraph" style="font-size: 15px; color: #333333; line-height: 1.65; margin-bottom: 12px; text-align: justify;">* <strong>FORMENTO,</strong> Antonette F.</p>
+                <p class="modal-paragraph" style="font-size: 15px; color: #333333; line-height: 1.65; margin-bottom: 12px; text-align: justify;">* <strong>LILAGAN,</strong> Savina T.</p>
+                <p class="modal-paragraph" style="font-size: 15px; color: #333333; line-height: 1.65; margin-bottom: 12px; text-align: justify;">* <strong>LICUP,</strong> Mikaella Jezel J.</p>
+                <p class="modal-paragraph" style="font-size: 15px; color: #333333; line-height: 1.65; margin-bottom: 12px; text-align: justify;">* <strong>PALOMO,</strong> John Gabriel P.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="sidebarFaqsModal" class="modal-overlay" onclick="closeSidebarModalOutside(event)">
+        <div class="modal-card" style="max-width: 850px; padding: 40px; height: 80vh;">
+            <button class="modal-close-btn" onclick="closeSidebarModal('sidebarFaqsModal')">&times;</button>
+            <div class="modal-content-scroll">
+                <h1 class="modal-title" style="font-size: 36px; color: #0038A8; font-weight: 900; margin-bottom: 20px;">Frequently Asked Questions</h1>
+
+                <div class="faq-list" style="width: 100%;">
+                    <div class="faq-item open">
+                        <div class="faq-header" onclick="toggleFaq(this)">
+                            <div class="faq-icon" aria-hidden="true">
+                                <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="11" y1="2" x2="11" y2="20" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                    <line x1="2" y1="11" x2="20" y2="11" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="faq-question">What is the purpose of this survey platform?</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                This platform is designed to bridge the gap between classroom learning and real-world hospitality and tourism training. By collecting insights on your academic courses and hands-on practical experiences, we can help educators optimize the curriculum to better prepare students for the global tourism industry.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Welcome logic
+        function openWelcomeModal() {
+            const modal = document.getElementById('welcomeModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.classList.add('modal-open');
+            }
+        }
+        function closeWelcomeModal() {
+            const modal = document.getElementById('welcomeModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+        }
+        function handleWelcomeOverlayClick(event) {
+            if (event.target === document.getElementById('welcomeModal')) {
+                closeWelcomeModal();
+            }
+        }
+        window.addEventListener('DOMContentLoaded', function() {
+            openWelcomeModal();
+        });
+
+        // Navigation logic
+        function nextPage(pageNum) {
+            document.querySelectorAll('.ts-page').forEach(p => p.classList.remove('ts-active'));
+            const targetPage = document.getElementById('ts-page' + pageNum);
+            if (targetPage) {
+                targetPage.classList.add('ts-active');
+            }
+            updateProgressBar(pageNum);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateProgressBar(pageNum) {
+            const bar = document.getElementById('surveyProgressBar');
+            if (!bar) return;
+            if (pageNum === 0) {
+                bar.style.display = 'none';
+            } else {
+                bar.style.display = 'block';
+            }
+            const activeStep = pageNum;
+            const steps = [
+                document.getElementById('progStep0'),
+                document.getElementById('progStep1'),
+                document.getElementById('progStep2'),
+                document.getElementById('progStep3')
+            ];
+            const lines = [
+                document.getElementById('progLine01'),
+                document.getElementById('progLine12'),
+                document.getElementById('progLine23')
+            ];
+            steps.forEach(function(step, i) {
+                if (!step) return;
+                const circle = step.querySelector('div');
+                const label = step.querySelector('span');
+                if (i <= activeStep) {
+                    circle.style.background = '#0035ad';
+                    circle.style.color = '#fff';
+                    label.style.color = '#0035ad';
+                } else {
+                    circle.style.background = '#c8d6f5';
+                    circle.style.color = '#0035ad';
+                    label.style.color = '#a0aec0';
+                }
+            });
+            lines.forEach(function(line, i) {
+                if (!line) return;
+                line.style.background = i < activeStep ? '#0035ad' : '#c8d6f5';
+            });
+        }
+
+        // Field validations
+        function validateTextField(input) {
+            const pattern = /^[A-Za-z\s.-]+$/;
+            const errorLabel = input.parentElement.querySelector('.field-error-msg');
+            if (input.value.trim() === "" || !pattern.test(input.value)) {
+                input.style.borderColor = "#d32f2f";
+                input.style.borderWidth = "2px";
+                if(errorLabel) errorLabel.style.display = 'block';
+                return false;
+            } else {
+                input.style.borderColor = "";
+                input.style.borderWidth = "";
+                if(errorLabel) errorLabel.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validateGeneralField(input) {
+            const errorLabel = input.parentElement.querySelector('.field-error-msg');
+            if (input.value.trim() === "") {
+                input.style.borderColor = "#d32f2f";
+                input.style.borderWidth = "2px";
+                if(errorLabel) errorLabel.style.display = 'block';
+                return false;
+            } else {
+                input.style.borderColor = "";
+                input.style.borderWidth = "";
+                if(errorLabel) errorLabel.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validateSelectField(select) {
+            const block = select.closest('.input-field-block');
+            const errorLabel = block.querySelector('.field-error-msg');
+            if (select.value === "") {
+                select.style.borderColor = "#d32f2f";
+                select.style.borderWidth = "2px";
+                if(errorLabel) errorLabel.style.display = 'block';
+                return false;
+            } else {
+                select.style.borderColor = "";
+                select.style.borderWidth = "";
+                if(errorLabel) errorLabel.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validateField(element) {
+            const block = element.closest('.input-field-block');
+            if (!block) return true;
+            const errorMsg = block.querySelector('.field-error-msg');
+            
+            if (element.value.trim() === "") {
+                element.style.borderColor = "#d32f2f";
+                element.style.borderWidth = "2px";
+                if (errorMsg) errorMsg.style.display = "block";
+                return false;
+            } else {
+                element.style.borderColor = "";
+                element.style.borderWidth = "";
+                if (errorMsg) errorMsg.style.display = "none";
+                return true;
+            }
+        }
+
+        // Dynamic inputs
+        function checkDynamicSkillOther(selectElement) {
+            validateSelectField(selectElement);
+            if (selectElement.value === 'other') {
+                const container = document.getElementById('skills-dynamic-area');
+                if (!document.getElementById('customSkillInput')) {
+                    const customInput = document.createElement('input');
+                    customInput.type = 'text';
+                    customInput.id = 'customSkillInput';
+                    customInput.name = 'skills_confident_custom';
+                    customInput.className = 'custom-input-box';
+                    customInput.placeholder = 'Type custom skill here';
+                    customInput.style.marginTop = '10px';
+                    customInput.required = true;
+                    customInput.oninput = function() { validateGeneralField(this); };
+                    container.appendChild(customInput);
+                    customInput.focus();
+                }
+            } else {
+                const customInput = document.getElementById('customSkillInput');
+                if (customInput) customInput.remove();
+            }
+        }
+
+        function checkDynamicSpecOther(selectElement) {
+            validateSelectField(selectElement);
+            if (selectElement.value === 'other') {
+                const container = document.getElementById('spec-dynamic-area');
+                if (!document.getElementById('customSpecInput')) {
+                    const customInput = document.createElement('input');
+                    customInput.type = 'text';
+                    customInput.id = 'customSpecInput';
+                    customInput.name = 'specialization_custom';
+                    customInput.className = 'custom-input-box';
+                    customInput.placeholder = 'Type custom specialization here';
+                    customInput.style.marginTop = '10px';
+                    customInput.required = true;
+                    customInput.oninput = function() { validateGeneralField(this); };
+                    container.appendChild(customInput);
+                    customInput.focus();
+                }
+            } else {
+                const customInput = document.getElementById('customSpecInput');
+                if (customInput) customInput.remove();
+            }
+        }
+
+        function handleGenderChange(select) {
+            validateSelectField(select);
+            const area = document.getElementById('gender-dynamic-area');
+            const existing = document.getElementById('genderOtherInput');
+            if (select.value === 'other') {
+                if (!existing) {
+                    const inp = document.createElement('input');
+                    inp.type = 'text';
+                    inp.id = 'genderOtherInput';
+                    inp.name = 'gender_other';
+                    inp.className = 'custom-input-box';
+                    inp.placeholder = 'Please specify';
+                    inp.required = true;
+                    inp.oninput = function() { validateGeneralField(this); };
+                    area.appendChild(inp);
+                    inp.focus();
+                }
+            } else {
+                if (existing) existing.remove();
+            }
+        }
+
+        // DOB formatter
+        function formatDobInput(input) {
+            let v = input.value.replace(/\D/g, '');
+            if (v.length >= 3 && v.length <= 4) v = v.slice(0,2) + '/' + v.slice(2);
+            else if (v.length > 4) v = v.slice(0,2) + '/' + v.slice(2,4) + '/' + v.slice(4,8);
+            input.value = v;
+            const errorLabel = input.closest('.input-field-block').querySelector('.field-error-msg');
+            if (errorLabel) errorLabel.style.display = 'none';
+            input.style.borderColor = '';
+            input.style.borderWidth = '';
+        }
+        function validateDobField(input) {
+            const errorLabel = input.closest('.input-field-block').querySelector('.field-error-msg');
+            const val = input.value.trim();
+            const dobPattern = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
+            if (!dobPattern.test(val)) {
+                input.style.borderColor = '#d32f2f';
+                input.style.borderWidth = '2px';
+                if (errorLabel) errorLabel.style.display = 'block';
+                return false;
+            } else {
+                input.style.borderColor = '';
+                input.style.borderWidth = '';
+                if (errorLabel) errorLabel.style.display = 'none';
+                return true;
+            }
+        }
+
+        // DOB Calendar Picker
+        let dobPickerMonth, dobPickerYear;
+        function initDobPicker() {
+            const now = new Date();
+            dobPickerMonth = now.getMonth();
+            dobPickerYear = now.getFullYear();
+            const sel = document.getElementById('dobYearSelect');
+            for (let y = now.getFullYear(); y >= 1950; y--) {
+                const opt = document.createElement('option');
+                opt.value = y; opt.textContent = y;
+                sel.appendChild(opt);
+            }
+            sel.value = dobPickerYear;
+            renderDobPicker();
+        }
+        function toggleDobPicker() {
+            const dd = document.getElementById('dobPickerDropdown');
+            if (dd.style.display === 'none' || !dd.style.display) {
+                initDobPickerIfNeeded();
+                dd.style.display = 'block';
+                document.addEventListener('click', closeDobPickerOutside, true);
+            } else {
+                dd.style.display = 'none';
+                document.removeEventListener('click', closeDobPickerOutside, true);
+            }
+        }
+        let dobPickerInited = false;
+        function initDobPickerIfNeeded() {
+            if (!dobPickerInited) { initDobPicker(); dobPickerInited = true; }
+        }
+        function closeDobPickerOutside(e) {
+            const wrapper = document.querySelector('.dob-single-wrapper');
+            if (wrapper && !wrapper.contains(e.target)) {
+                document.getElementById('dobPickerDropdown').style.display = 'none';
+                document.removeEventListener('click', closeDobPickerOutside, true);
+            }
+        }
+        function renderDobPicker() {
+            const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            document.getElementById('dobPickerLabel').textContent = months[dobPickerMonth] + ' ' + dobPickerYear;
+            const grid = document.getElementById('dobPickerGrid');
+            grid.innerHTML = '';
+            ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d => {
+                const h = document.createElement('div');
+                h.className = 'dob-day-header'; h.textContent = d; grid.appendChild(h);
+            });
+            const firstDay = new Date(dobPickerYear, dobPickerMonth, 1).getDay();
+            const daysInMonth = new Date(dobPickerYear, dobPickerMonth + 1, 0).getDate();
+            for (let i = 0; i < firstDay; i++) {
+                const e = document.createElement('div'); e.className = 'dob-day-cell empty'; grid.appendChild(e);
+            }
+            const currentVal = document.getElementById('dobInput').value;
+            for (let d = 1; d <= daysInMonth; d++) {
+                const cell = document.createElement('div');
+                cell.className = 'dob-day-cell';
+                cell.textContent = d;
+                const mm = String(dobPickerMonth+1).padStart(2,'0');
+                const dd = String(d).padStart(2,'0');
+                const dateStr = mm + '/' + dd + '/' + dobPickerYear;
+                if (currentVal === dateStr) cell.classList.add('selected');
+                cell.onclick = function() {
+                    document.getElementById('dobInput').value = dateStr;
+                    document.getElementById('dobPickerDropdown').style.display = 'none';
+                    document.removeEventListener('click', closeDobPickerOutside, true);
+                    validateDobField(document.getElementById('dobInput'));
+                };
+                grid.appendChild(cell);
+            }
+            document.getElementById('dobYearSelect').value = dobPickerYear;
+        }
+        function dobChangeMonth(dir) {
+            dobPickerMonth += dir;
+            if (dobPickerMonth < 0) { dobPickerMonth = 11; dobPickerYear--; }
+            if (dobPickerMonth > 11) { dobPickerMonth = 0; dobPickerYear++; }
+            document.getElementById('dobYearSelect').value = dobPickerYear;
+            renderDobPicker();
+        }
+        function dobChangeYear(val) {
+            dobPickerYear = parseInt(val);
+            renderDobPicker();
+        }
+
+        // Submissions & Page Transitions
+        function validateFormSubmission(event) {
+            event.preventDefault();
+            let isFormValid = true;
+            
+            const checkbox = document.getElementById('acceptTerms');
+            if (!checkbox.checked) {
+                alert("Please accept the terms of use and privacy policy to proceed.");
+                isFormValid = false;
+                return;
+            }
+
+            document.querySelectorAll('#ts-page0 input[required]').forEach(input => {
+                if (input.id === 'acceptTerms') return;
+                if (input.id === 'dobInput') {
+                    if (!validateDobField(input)) isFormValid = false;
+                } else if (input.name === 'firstname' || input.name === 'lastname') {
+                    if (!validateTextField(input)) isFormValid = false;
+                } else {
+                    if (!validateGeneralField(input)) isFormValid = false;
+                }
+                if (input.style.borderColor === "rgb(211, 47, 47)" || input.value.trim() === "") {
+                    isFormValid = false;
+                }
+            });
+
+            document.querySelectorAll('#ts-page0 select[required]').forEach(select => {
+                validateSelectField(select);
+                if (select.value === "") isFormValid = false;
+            });
+
+            const genderSelect = document.getElementById('genderSelect');
+            if (genderSelect && genderSelect.value === 'other') {
+                const otherInp = document.getElementById('genderOtherInput');
+                if (otherInp && otherInp.value.trim() === '') {
+                    otherInp.style.borderColor = '#d32f2f';
+                    otherInp.style.borderWidth = '2px';
+                    isFormValid = false;
+                }
+            }
+
+            if (isFormValid) {
+                nextPage(1); 
+            } else {
+                const firstError = document.querySelector('[style*="border-color: rgb(211, 47, 47)"]');
+                if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function validateAndGoToPage3() {
+            let isValid = true;
+            const page2Fields = document.querySelectorAll('#ts-page2 [required]');
+            
+            page2Fields.forEach(field => {
+                if (!validateField(field)) {
+                    isValid = false;
+                }
+            });
+
+            if (isValid) {
+                nextPage(3);
+            } else {
+                const firstInvalid = document.querySelector('#ts-page2 [style*="border-color: rgb(211, 47, 47)"]');
+                if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function submitForm() {
+            let isValid = true;
+            const page3Fields = document.querySelectorAll('#ts-page3 [required]');
+            
+            page3Fields.forEach(field => {
+                if (!validateField(field)) {
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                const firstInvalid = document.querySelector('#ts-page3 [style*="border-color: rgb(211, 47, 47)"]');
+                if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            const confirmModal = document.getElementById('surveySubmitConfirmModal');
+            if (confirmModal) {
+                confirmModal.classList.add('active');
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        // Output and Final Confirmation Modals
+        function closeSurveyConfirmModal() {
+            const confirmModal = document.getElementById('surveySubmitConfirmModal');
+            if (confirmModal) {
+                confirmModal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function closeSurveyConfirmOutside(event) {
+            if (event.target.id === 'surveySubmitConfirmModal') {
+                closeSurveyConfirmModal();
+            }
+        }
+
+        function commitSurveySubmissionResponse() {
+            closeSurveyConfirmModal();
+            
+            // Personal Information
+            const firstname = document.querySelector('[name="firstname"]') ? document.querySelector('[name="firstname"]').value : '';
+            const lastname = document.querySelector('[name="lastname"]') ? document.querySelector('[name="lastname"]').value : '';
+            document.getElementById('viewRepFullName').innerText = (firstname + ' ' + lastname).trim() || 'N/A';
+            document.getElementById('viewRepDob').innerText = document.getElementById('dobInput').value || 'N/A';
+            const genderSel = document.getElementById('genderSelect');
+            let genderVal = genderSel ? genderSel.value : '';
+            if (genderVal === 'other') {
+                const gOther = document.getElementById('genderOtherInput');
+                genderVal = gOther ? gOther.value : 'Other';
+            }
+            document.getElementById('viewRepGender').innerText = genderVal || 'N/A';
+            const yearSel = document.querySelector('[name="s_year"]');
+            document.getElementById('viewRepYear').innerText = yearSel ? yearSel.value : 'N/A';
+            const courseInp = document.querySelector('[name="course"]');
+            document.getElementById('viewRepCourse').innerText = courseInp ? courseInp.value : 'N/A';
+            const sectionInp = document.querySelector('[name="section"]');
+            document.getElementById('viewRepSection').innerText = sectionInp ? sectionInp.value : 'N/A';
+            const uniInp = document.querySelector('[name="university"]');
+            document.getElementById('viewRepUniversity').innerText = uniInp ? uniInp.value : 'N/A';
+
+            // Skills Evaluation
+            const skillSel = document.querySelector('[name="skills_confident"]');
+            let skillVal = skillSel ? skillSel.value : '';
+            if (skillVal === 'other') {
+                const skillCustom = document.getElementById('customSkillInput');
+                skillVal = skillCustom ? skillCustom.value : 'Other';
+            }
+            document.getElementById('viewRepSkillConfident').innerText = skillVal || 'N/A';
+            const skillImpInp = document.querySelector('[name="skills_improvement"]');
+            document.getElementById('viewRepSkillImprovement').innerText = skillImpInp ? skillImpInp.value : 'N/A';
+
+            // Experience Evaluation
+            const specSel = document.querySelector('[name="specialization"]');
+            let specVal = specSel ? specSel.value : '';
+            if (specVal === 'other') {
+                const specCustom = document.getElementById('customSpecInput');
+                specVal = specCustom ? specCustom.value : 'Other';
+            }
+            document.getElementById('viewRepSpecialization').innerText = specVal || 'N/A';
+            const ojtSel = document.querySelector('[name="ojt_status"]');
+            document.getElementById('viewRepOjt').innerText = ojtSel ? ojtSel.value : 'N/A';
+            const learningRateSel = document.querySelector('[name="learning_rating"]');
+            let learningRateText = 'N/A';
+            if (learningRateSel && learningRateSel.value) {
+                const opt = learningRateSel.options[learningRateSel.selectedIndex];
+                learningRateText = opt ? opt.text : learningRateSel.value;
+            }
+            document.getElementById('viewRepLearningRating').innerText = learningRateText;
+            const overallExpInp = document.querySelector('[name="overall_exp"]');
+            document.getElementById('viewRepOverallExp').innerText = overallExpInp ? overallExpInp.value : 'N/A';
+
+            // Tourism Survey
+            document.getElementById('viewRepStatus').innerText = document.getElementById('ts_status').value || 'N/A';
+            document.getElementById('viewRepDest').innerText = document.getElementById('ts_dest').value || 'N/A';
+            document.getElementById('viewRepDate').innerText = document.getElementById('ts_date').value || 'N/A';
+            document.getElementById('viewRepSource').innerText = document.getElementById('ts_source').value || 'N/A';
+            
+            document.getElementById('viewRepRatingOverall').innerText = document.getElementById('ts_rate_overall').value || 'N/A';
+            document.getElementById('viewRepRatingClean').innerText = document.getElementById('ts_rate_clean').value || 'N/A';
+            document.getElementById('viewRepRatingSafety').innerText = document.getElementById('ts_rate_safety').value || 'N/A';
+            document.getElementById('viewRepRatingAccess').innerText = document.getElementById('ts_rate_access').value || 'N/A';
+
+            // Extended tourism fields
+            document.getElementById('viewRepRatingStaff').innerText = document.getElementById('ts_rate_staff').value || 'N/A';
+            document.getElementById('viewRepFacilities').innerText = document.getElementById('ts_satisfied_facilities').value || 'N/A';
+            document.getElementById('viewRepPrices').innerText = document.getElementById('ts_prices_reasonable').value || 'N/A';
+            document.getElementById('viewRepSignage').innerText = document.getElementById('ts_signage_clear').value || 'N/A';
+            document.getElementById('viewRepLikeMost').innerText = document.getElementById('ts_like_most').value || 'N/A';
+            document.getElementById('viewRepDislike').innerText = document.getElementById('ts_dislike').value || 'N/A';
+            document.getElementById('viewRepRecommend').innerText = document.getElementById('ts_recommend').value || 'N/A';
+            document.getElementById('viewRepVisitAgain').innerText = document.getElementById('ts_visit_again').value || 'N/A';
+            document.getElementById('viewRepSuggestions').innerText = document.getElementById('ts_suggestions').value || 'N/A';
+            document.getElementById('viewRepComments').innerText = document.getElementById('ts_comments').value || 'N/A';
+
+            const successModal = document.getElementById('surveySubmitSuccessModal');
+            if (successModal) {
+                successModal.classList.add('active');
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function closeSurveySuccessModal() {
+            const successModal = document.getElementById('surveySubmitSuccessModal');
+            if (successModal) {
+                successModal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function closeSurveySuccessOutside(event) {
+            if (event.target.id === 'surveySubmitSuccessModal') {
+                closeSurveySuccessModal();
+            }
+        }
+
+        function routeUserToDashboard() {
+            closeSurveySuccessModal();
+            window.location.href = 'dashboard.html';
+        }
+
+        function openSubmittedResponseSummaryView() {
+            closeSurveySuccessModal();
+            const summaryModal = document.getElementById('submittedResponseSummaryViewModal');
+            if (summaryModal) {
+                summaryModal.classList.add('active');
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function closeSummaryViewModal() {
+            const summaryModal = document.getElementById('submittedResponseSummaryViewModal');
+            if (summaryModal) {
+                summaryModal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function closeSummaryViewOutside(event) {
+            if (event.target.id === 'submittedResponseSummaryViewModal') {
+                closeSummaryViewModal();
+            }
+        }
+
+        // Shared Navigation Modals
+        function openLogoutConfirmation(event) {
+            event.preventDefault();
+            const modal = document.getElementById('logoutConfirmationModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function closeLogoutModal() {
+            const modal = document.getElementById('logoutConfirmationModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function closeLogoutModalOutside(event) {
+            if (event.target.id === 'logoutConfirmationModal') {
+                closeLogoutModal();
+            }
+        }
+
+        function executeFinalSessionLogout() {
+            closeLogoutModal();
+            window.location.href = 'index.html';
+        }
+
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('dashSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
+        }
+
+        function closeMobileSidebar() {
+            const sidebar = document.getElementById('dashSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('active');
+        }
+
+        function toggleFaq(headerElement) {
+            const currentItem = headerElement.closest('.faq-item');
+            const currentState = currentItem.classList.contains('open');
+            currentItem.classList.toggle('open', !currentState);
+        }
+
+        function openSidebarModal(modalId, event) {
+            if (event) event.preventDefault();
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function closeSidebarModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                const activeModals = document.querySelectorAll('.modal-overlay.active');
+                if (activeModals.length === 0) {
+                    document.body.classList.remove('modal-open');
+                }
+            }
+        }
+
+        function closeSidebarModalOutside(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeSidebarModal(event.target.id);
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In | EduTour</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-page-body">
+
+    <div class="login-wrapper">
+        
+        <div class="login-container-left">
+            
+            <a href="index.html" class="return-link">&lt; Return</a>
+            
+            <div class="login-form-content">
+                <h1 class="welcome-heading">Welcome Back!</h1>
+                <p class="welcome-subtext">Enter your details to proceed with the survey.</p>
+                
+                <form action="#" id="loginForm" class="login-form-element" onsubmit="handleDemoValidation(event)">
+                    
+                    <div class="input-field-block">
+                        <label for="email" class="input-label-text">Email address</label>
+                        <input type="email" id="email" class="custom-input-box" required autocomplete="username">
+                        <span class="field-error-msg" id="emailError">Please enter a valid email address.</span>
+                    </div>
+                    
+                    <div class="input-field-block">
+                        <label for="password" class="input-label-text">Password</label>
+                        <div class="password-input-container">
+                            <input type="password" id="password" class="custom-input-box" required autocomplete="current-password">
+                            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility()" aria-label="Toggle password visibility">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="eye-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                        <span class="field-error-msg" id="passwordError">Incorrect password. Please try again.</span>
+                    </div>
+
+                    <div class="input-field-block">
+                        <label for="role" class="input-label-text">Choose role</label>
+                        <div class="select-wrapper">
+                            <select id="role" class="custom-input-box select-field-box" required>
+                                <option value="" disabled selected>Select</option>
+                                <option value="student">Student</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        <span class="field-error-msg" id="roleError">Please select a role.</span>
+                    </div>
+                    
+                    <div class="form-options-row">
+                        <label class="remember-me-checkbox">
+                            <input type="checkbox" id="remember">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="forgot-password-link" onclick="openResetModal(event)">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="primary-login-btn">Log in</button>
+                    <p class="login-terms-agreement-text">By continuing, you agree to our <a href="#" onclick="openTermsModal(event)">Terms &amp; Conditions</a></p>
+                </form>
+                
+                <div class="signup-redirect-footer">
+                    <span>Don't have an account?</span>
+                    <a href="signup_page.html" class="signup-link-text">Sign up here.</a>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="login-container-right"></div>
+        
+    </div>
+
+    <!-- Terms & Conditions Modal -->
+    <div id="termsModal" class="modal-overlay" onclick="closeTermsModalOutside(event)">
+        <div class="modal-card">
+            <button class="modal-close-btn" onclick="closeTermsModal()">&times;</button>
+            <div class="modal-content-scroll">
+                <h1 class="modal-title">Terms &amp; Conditions</h1>
+                <p class="modal-date">Effective Date: May 23, 2026</p>
+
+                <h2 class="modal-subtitle">I. Acceptance</h2>
+                <p class="modal-paragraph">Welcome to the Tourism Management Academic &amp; Practical Experience Survey Platform. By accessing or using this platform, you agree to these Terms &amp; Conditions. If you do not agree, you must not use this website.</p>
+
+                <h2 class="modal-subtitle">II. Eligibility and Registration</h2>
+                <p class="modal-paragraph">This is an institutional research tool for authorized tourism students. Registration requires accurate information, including your full name, Student ID, and institutional email. Using false credentials is strictly prohibited.</p>
+
+                <h2 class="modal-subtitle">III. Data Collection and Usage</h2>
+                <p class="modal-paragraph">We collect personal, academic, and contact details to facilitate research and ensure platform security. Your data is used strictly for curriculum analysis, identity verification, and to maintain the integrity of survey results.</p>
+
+                <h2 class="modal-subtitle">IV. Privacy and Confidentiality</h2>
+                <p class="modal-paragraph">We prioritize your privacy. All survey responses are aggregated and anonymized for academic reports; your individual answers will never be linked to your identity publicly. We do not sell or trade your personal information.</p>
+
+                <h2 class="modal-subtitle">V. User Responsibility and System Integrity</h2>
+                <p class="modal-paragraph">You are responsible for your account security. Users must not submit fraudulent data, attempt to bypass security, or introduce malicious software. Any activity occurring under your account is your sole responsibility.</p>
+
+                <h2 class="modal-subtitle">VI. Enforcement and Accountability</h2>
+                <p class="modal-paragraph">We log all access details to ensure traceability. Violations of these terms, including data tampering, will result in account termination and may lead to disciplinary action by institutional authorities.</p>
+
+                <h2 class="modal-subtitle">VII. Modifications and Contact</h2>
+                <p class="modal-paragraph">We may update these terms as the platform evolves. For questions regarding your data or account management, please reach out via the contact information provided in the platform footer.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1:1 Revised Password Reset Modal View Component Framework matching structural sketch parameters -->
+    <div id="resetPasswordModal" class="modal-overlay" onclick="closeResetModalOutside(event)">
+        <div class="modal-card reset-modal-card" style="max-width: 520px; padding: 40px; height: auto;">
+            <button class="modal-close-btn reset-close-x" onclick="closeResetModal()">&times;</button>
+            
+            <h1 class="reset-modal-heading" style="font-size: 32px; font-weight: 900; margin-bottom: 12px;">Reset your Password</h1>
+            <p class="reset-modal-body-text" style="font-size: 15px; color: #444444; line-height: 1.5; margin-bottom: 24px;">
+                Enter the email address associated with your account, and answer your security question to reset your password.
+            </p>
+            
+            <form action="#" class="reset-modal-form" onsubmit="handleResetSubmit(event)">
+                <div class="reset-input-spacing" style="display: flex; flex-direction: column; gap: 14px; width: 100%; margin-bottom: 24px;">
+                    
+                    <!-- Field 1: Email Input Box -->
+                    <input type="email" id="resetEmail" class="custom-input-box" placeholder="Enter email address" required>
+                    <span class="field-error-msg text-center-override" id="resetEmailError" style="display: none; margin-top: -4px;">This email address is not registered with our platform.</span>
+                    
+                    <!-- Field 2: Custom Dropdown Question Selector Component matching signup choices -->
+                    <div class="select-wrapper">
+                        <select id="resetSecurityQuestion" class="custom-input-box select-field-box" required>
+                            <option value="" disabled selected>Select your security question</option>
+                            <option>What was the name of your first pet?</option>
+                            <option>What is your mother's maiden name?</option>
+                            <option>What was the name of your elementary school?</option>
+                            <option>What city were you born in?</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Field 3: Text Input Box for the corresponding answer -->
+                    <input type="text" id="resetSecurityAnswer" class="custom-input-box" placeholder="Your answer" required>
+                    <span class="field-error-msg text-center-override" id="resetAnswerError" style="display: none; margin-top: -4px; color: #d32f2f; font-weight: 700;">Incorrect security response. Please try again.</span>
+                </div>
+                
+                <!-- Action Trigger Label updated to match design snapshot wireframes -->
+                <button type="submit" class="reset-modal-submit-btn" style="max-width: 100%;">Verify and Continue</button>
+                
+                <!-- Secondary interactive exit control element node links added directly beneath trigger action -->
+                <div style="margin-top: 16px; text-align: center;">
+                    <a href="#" onclick="closeResetModal(event)" style="font-size: 14px; font-weight: 700; color: #0035ad; text-decoration: underline;">Back to Log in</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const toggleButton = document.querySelector('.password-toggle-btn');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.classList.add('visible');
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.classList.remove('visible');
+            }
+        }
+
+        function handleDemoValidation(event) {
+            event.preventDefault();
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const roleSelect = document.getElementById('role');
+            const emailError = document.getElementById('emailError');
+            const passwordError = document.getElementById('passwordError');
+            const roleError = document.getElementById('roleError');
+            
+            let isValid = true;
+
+            // Validate role first
+            if (!roleSelect.value) {
+                roleSelect.classList.add('input-error-state');
+                roleError.classList.add('show-error');
+                isValid = false;
+            } else {
+                roleSelect.classList.remove('input-error-state');
+                roleError.classList.remove('show-error');
+            }
+
+            const selectedRole = roleSelect.value;
+
+            if (selectedRole === 'admin') {
+                // Admin: strict credential check
+                let emailOk = true;
+                let passOk = true;
+
+                if (emailInput.value !== 'admin@admin.com') {
+                    emailInput.classList.add('input-error-state');
+                    emailError.classList.add('show-error');
+                    emailOk = false;
+                    isValid = false;
+                } else {
+                    emailInput.classList.remove('input-error-state');
+                    emailError.classList.remove('show-error');
+                }
+
+                if (passwordInput.value !== 'pass123') {
+                    passwordInput.classList.add('input-error-state');
+                    passwordError.classList.add('show-error');
+                    passOk = false;
+                    isValid = false;
+                } else {
+                    passwordInput.classList.remove('input-error-state');
+                    passwordError.classList.remove('show-error');
+                }
+
+                if (isValid) {
+                    window.location.href = 'admin.html';
+                }
+
+            } else if (selectedRole === 'student') {
+                // Student: accept any non-empty valid email and password
+                let emailOk = true;
+                let passOk = true;
+
+                if (!emailInput.value) {
+                    emailInput.classList.add('input-error-state');
+                    emailError.classList.add('show-error');
+                    emailOk = false;
+                    isValid = false;
+                } else {
+                    emailInput.classList.remove('input-error-state');
+                    emailError.classList.remove('show-error');
+                }
+
+                if (!passwordInput.value) {
+                    passwordInput.classList.add('input-error-state');
+                    passwordError.classList.add('show-error');
+                    passOk = false;
+                    isValid = false;
+                } else {
+                    passwordInput.classList.remove('input-error-state');
+                    passwordError.classList.remove('show-error');
+                }
+
+                if (isValid) {
+                    window.location.href = 'dashboard.html';
+                }
+            }
+        }
+
+        function openTermsModal(event) {
+            if (event) event.preventDefault();
+            const modal = document.getElementById('termsModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function closeTermsModal(event) {
+            if (event) event.preventDefault();
+            const modal = document.getElementById('termsModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function closeTermsModalOutside(event) {
+            if (event.target.id === 'termsModal') {
+                closeTermsModal();
+            }
+        }
+
+        function openResetModal(event) {
+            if (event) event.preventDefault();
+            const modal = document.getElementById('resetPasswordModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.classList.add('modal-open');
+                
+                // Clear residual validation triggers
+                document.getElementById('resetEmail').classList.remove('input-error-state');
+                document.getElementById('resetEmailError').style.display = 'none';
+                document.getElementById('resetSecurityAnswer').classList.remove('input-error-state');
+                document.getElementById('resetAnswerError').style.display = 'none';
+                
+                document.getElementById('resetEmail').value = '';
+                document.getElementById('resetSecurityQuestion').selectedIndex = 0;
+                document.getElementById('resetSecurityAnswer').value = '';
+            }
+        }
+
+        function closeResetModal(event) {
+            if (event) event.preventDefault();
+            const modal = document.getElementById('resetPasswordModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function closeResetModalOutside(event) {
+            if (event.target.id === 'resetPasswordModal') {
+                closeResetModal();
+            }
+        }
+
+        function handleResetSubmit(event) {
+            event.preventDefault();
+            const resetEmailInput = document.getElementById('resetEmail');
+            const resetEmailError = document.getElementById('resetEmailError');
+            const answerInput = document.getElementById('resetSecurityAnswer');
+            const answerError = document.getElementById('resetAnswerError');
+            
+            // Enforce admin exception tracking rule parameters identically
+            if (resetEmailInput.value !== 'admin@admin.com') {
+                resetEmailInput.classList.add('input-error-state');
+                resetEmailError.style.display = 'block';
+                answerInput.classList.remove('input-error-state');
+                answerError.style.display = 'none';
+            } else {
+                resetEmailInput.classList.remove('input-error-state');
+                resetEmailError.style.display = 'none';
+                
+                // Demo tracking rule check for security answer validation
+                if (answerInput.value.toLowerCase() !== 'juno') {
+                    answerInput.classList.add('input-error-state');
+                    answerError.style.display = 'block';
+                } else {
+                    answerInput.classList.remove('input-error-state');
+                    answerError.style.display = 'none';
+                    alert('Security keys verified successfully. Redirecting to build account recovery workflow...');
+                    closeResetModal();
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

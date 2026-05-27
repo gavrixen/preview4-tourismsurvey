@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | EduTour</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-body">
+
+    <!-- Mobile sidebar toggle -->
+    <button class="admin-mobile-toggle" id="adminSidebarToggle" onclick="toggleAdminSidebar()" aria-label="Toggle sidebar">
+        <span></span><span></span><span></span>
+    </button>
+    <div class="admin-sidebar-overlay" id="adminSidebarOverlay" onclick="closeAdminSidebar()"></div>
+
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div>
+            <h2 class="sidebar-logo">EduTour:<br>Ano, tara?</h2>
+            <p class="admin-nav-label">Admin Panel</p>
+            <nav>
+                <ul>
+                    <li class="active">
+                        <a href="admin.html">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;flex-shrink:0;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            Responses
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="openTrashView(event)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;flex-shrink:0;"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                            Trash
+                            <span class="admin-sidebar-badge" id="trashCountBadge">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="admin-sidebar-logout">
+            <button class="admin-logout-btn" onclick="openAdminLogout()">Log out</button>
+        </div>
+    </aside>
+
+    <main class="admin-workspace">
+
+        <!-- Page header -->
+        <div class="admin-page-header">
+            <h1 class="admin-page-title">Survey Responses</h1>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="admin-stat-row">
+            <div class="admin-stat-card">
+                <span class="admin-stat-label">Total Responses</span>
+                <span class="admin-stat-value" id="statTotal">0</span>
+                <span class="admin-stat-sub">All submitted surveys</span>
+            </div>
+            <div class="admin-stat-card">
+                <span class="admin-stat-label">This Week</span>
+                <span class="admin-stat-value" id="statWeek">0</span>
+                <span class="admin-stat-sub">New submissions</span>
+            </div>
+            <div class="admin-stat-card">
+                <span class="admin-stat-label">In Trash</span>
+                <span class="admin-stat-value" id="statTrash" style="color:#d32f2f;">0</span>
+                <span class="admin-stat-sub">Pending deletion</span>
+            </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="admin-toolbar">
+            <input class="admin-search-box" type="text" id="searchInput" placeholder="🔍  Search by student name…" oninput="applyFilters()">
+            <div style="position:relative;">
+                <select class="admin-filter-select" id="yearFilter" onchange="applyFilters()">
+                    <option value="">All Year Levels</option>
+                    <option value="1st Year">1st Year</option>
+                    <option value="2nd Year">2nd Year</option>
+                    <option value="3rd Year">3rd Year</option>
+                    <option value="4th Year">4th Year</option>
+                </select>
+            </div>
+            <div class="admin-export-group">
+                <button class="admin-btn admin-btn-primary" onclick="exportToXLSX()">⬇ Export Excel</button>
+            </div>
+        </div>
+
+        <!-- Responses table card -->
+        <div class="admin-table-card" id="responsesTableCard">
+            <div class="admin-table-header-bar">
+                <div>
+                    <span class="admin-table-header-title">All Responses</span>
+                    <span class="admin-table-count-badge" id="tableCountBadge">0 entries</span>
+                </div>
+                <div class="admin-table-actions-right">
+                    <button class="admin-btn admin-btn-outline-danger" id="deleteSelectedBtn" onclick="confirmDeleteSelected()" style="display:none;">
+                        🗑 Delete Selected
+                    </button>
+                </div>
+            </div>
+
+            <div class="admin-table-wrapper">
+                <table class="admin-table" id="responsesTable">
+                    <thead>
+                        <tr>
+                            <th class="col-check"><input type="checkbox" class="admin-checkbox" id="selectAllChk" onchange="toggleSelectAll(this)"></th>
+                            <th>#</th>
+                            <th>Full Name</th>
+                            <th>Course</th>
+                            <th>Year</th>
+                            <th>Gender</th>
+                            <th>Section</th>
+                            <th>OJT</th>
+                            <th>Rating</th>
+                            <th>Submitted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="responsesTableBody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty state (shown when no responses) -->
+            <div class="admin-empty-state" id="emptyState" style="display:none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1" ry="1"/></svg>
+                <p>No responses found.</p>
+            </div>
+
+            <div class="admin-pagination" id="paginationBar">
+                <span class="admin-pagination-info" id="paginationInfo">Showing 0–0 of 0</span>
+                <div class="admin-pagination-btns" id="paginationBtns"></div>
+            </div>
+        </div>
+
+        <!-- ---- TRASH SECTION ---- -->
+        <div id="trashSection" style="display:none;">
+            <div class="admin-section-divider">
+                <div class="admin-section-divider-line"></div>
+                <span class="admin-section-divider-label">🗑 Trash</span>
+                <div class="admin-section-divider-line"></div>
+            </div>
+
+            <div class="admin-table-card">
+                <div class="admin-table-header-bar">
+                    <div>
+                        <span class="admin-table-header-title">Deleted Responses</span>
+                        <span class="admin-table-count-badge" id="trashTableCountBadge">0 entries</span>
+                    </div>
+                    <div class="admin-table-actions-right">
+                        <button class="admin-btn admin-btn-ghost" onclick="restoreAllTrash()">↩ Restore All</button>
+                        <button class="admin-btn admin-btn-danger" onclick="confirmEmptyTrash()">Empty Trash</button>
+                    </div>
+                </div>
+
+                <div class="admin-table-wrapper">
+                    <table class="admin-table" id="trashTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Full Name</th>
+                                <th>Course</th>
+                                <th>Year</th>
+                                <th>Gender</th>
+                                <th>Deleted</th>
+                                <th>Auto-Delete In</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trashTableBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="admin-empty-state" id="trashEmptyState" style="display:none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                    <p>Trash is empty.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+    <!-- VIEW RESPONSE MODAL -->
+    <div class="admin-modal-overlay" id="viewModal" onclick="closeModalOnBackdrop(event,'viewModal')">
+        <div class="admin-modal-card">
+            <button class="admin-modal-close" onclick="closeAdminModal('viewModal')">&times;</button>
+            <h2 class="admin-modal-title" id="viewModalName">Student Name</h2>
+            <p class="admin-modal-subtitle" id="viewModalSub">Submitted on —</p>
+
+            <div class="admin-view-section-title">Personal Information</div>
+            <div class="admin-view-grid" id="viewPersonalGrid"></div>
+
+            <div class="admin-view-section-title">Skills &amp; Experience Evaluation</div>
+            <div class="admin-view-grid" id="viewSkillsGrid"></div>
+
+            <div class="admin-view-section-title">Tourism Survey Answers</div>
+            <div class="admin-view-grid" id="viewTourismGrid"></div>
+
+            <div style="display:flex;gap:10px;margin-top:32px;flex-wrap:wrap;">
+                <button class="admin-btn admin-btn-ghost" style="flex:1;" onclick="printResponse()">🖨 Print</button>
+                <button class="admin-btn admin-btn-primary" style="flex:1;" onclick="downloadPDF()">⬇ Download PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE SINGLE CONFIRM MODAL -->
+    <div class="admin-modal-overlay" id="deleteModal" onclick="closeModalOnBackdrop(event,'deleteModal')">
+        <div class="admin-modal-card admin-modal-card-sm">
+            <button class="admin-modal-close" onclick="closeAdminModal('deleteModal')">&times;</button>
+            <div class="admin-confirm-icon">🗑️</div>
+            <h3 class="admin-confirm-title">Move to Trash?</h3>
+            <p class="admin-confirm-body">This response will be moved to the trash and automatically permanently deleted after <strong>30 days</strong>. You can restore it anytime before then.</p>
+            <div class="admin-confirm-buttons">
+                <button class="admin-btn admin-btn-ghost" onclick="closeAdminModal('deleteModal')">Cancel</button>
+                <button class="admin-btn admin-btn-danger" onclick="executeDelete()">Move to Trash</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE SELECTED CONFIRM MODAL -->
+    <div class="admin-modal-overlay" id="deleteSelectedModal" onclick="closeModalOnBackdrop(event,'deleteSelectedModal')">
+        <div class="admin-modal-card admin-modal-card-sm">
+            <button class="admin-modal-close" onclick="closeAdminModal('deleteSelectedModal')">&times;</button>
+            <div class="admin-confirm-icon">🗑️</div>
+            <h3 class="admin-confirm-title" id="deleteSelectedTitle">Delete Selected?</h3>
+            <p class="admin-confirm-body">The selected responses will be moved to trash and permanently deleted after <strong>30 days</strong> if not restored.</p>
+            <div class="admin-confirm-buttons">
+                <button class="admin-btn admin-btn-ghost" onclick="closeAdminModal('deleteSelectedModal')">Cancel</button>
+                <button class="admin-btn admin-btn-danger" onclick="executeDeleteSelected()">Move to Trash</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PERMANENT DELETE CONFIRM MODAL (from trash) -->
+    <div class="admin-modal-overlay" id="permDeleteModal" onclick="closeModalOnBackdrop(event,'permDeleteModal')">
+        <div class="admin-modal-card admin-modal-card-sm">
+            <button class="admin-modal-close" onclick="closeAdminModal('permDeleteModal')">&times;</button>
+            <div class="admin-confirm-icon">⚠️</div>
+            <h3 class="admin-confirm-title">Permanently Delete?</h3>
+            <div class="admin-perm-warning">⚠️ This action cannot be undone. The record will be erased permanently and cannot be recovered.</div>
+            <div class="admin-confirm-buttons">
+                <button class="admin-btn admin-btn-ghost" onclick="closeAdminModal('permDeleteModal')">Cancel</button>
+                <button class="admin-btn admin-btn-danger" onclick="executePermDelete()">Delete Permanently</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- EMPTY TRASH CONFIRM MODAL -->
+    <div class="admin-modal-overlay" id="emptyTrashModal" onclick="closeModalOnBackdrop(event,'emptyTrashModal')">
+        <div class="admin-modal-card admin-modal-card-sm">
+            <button class="admin-modal-close" onclick="closeAdminModal('emptyTrashModal')">&times;</button>
+            <div class="admin-confirm-icon">🗑️</div>
+            <h3 class="admin-confirm-title">Empty Entire Trash?</h3>
+            <div class="admin-perm-warning">⚠️ All items in the trash will be permanently deleted. This cannot be undone.</div>
+            <div class="admin-confirm-buttons">
+                <button class="admin-btn admin-btn-ghost" onclick="closeAdminModal('emptyTrashModal')">Cancel</button>
+                <button class="admin-btn admin-btn-danger" onclick="executeEmptyTrash()">Empty Trash</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGOUT CONFIRM MODAL -->
+    <div class="admin-modal-overlay" id="adminLogoutModal" onclick="closeModalOnBackdrop(event,'adminLogoutModal')">
+        <div class="admin-modal-card admin-modal-card-sm">
+            <button class="admin-modal-close" onclick="closeAdminModal('adminLogoutModal')">&times;</button>
+            <div class="admin-logout-confirm-inner">
+                <div class="admin-confirm-icon">👋</div>
+                <h3 class="admin-confirm-title">Logging Out?</h3>
+                <p class="admin-confirm-body">Are you sure you want to end your session and return to the main landing page?</p>
+                <div class="admin-confirm-buttons">
+                    <button class="admin-btn admin-btn-ghost" onclick="closeAdminModal('adminLogoutModal')">Cancel</button>
+                    <button class="admin-btn admin-btn-danger" onclick="window.location.href='index.html'">Log Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== JAVASCRIPT ===================== -->
+    <script>
+    const LS_RESPONSES_KEY = 'tourinsights_responses';
+    const LS_TRASH_KEY     = 'tourinsights_trash';
+
+    function loadFromStorage() {
+        try {
+            const r = localStorage.getItem(LS_RESPONSES_KEY);
+            const t = localStorage.getItem(LS_TRASH_KEY);
+            return {
+                responses:        r ? JSON.parse(r) : [],
+                trashedResponses: t ? JSON.parse(t) : []
+            };
+        } catch(e) {
+            return { responses: [], trashedResponses: [] };
+        }
+    }
+
+    function saveToStorage() {
+        try {
+            localStorage.setItem(LS_RESPONSES_KEY, JSON.stringify(responses));
+            localStorage.setItem(LS_TRASH_KEY,      JSON.stringify(trashedResponses));
+        } catch(e) {}
+    }
+
+    const _stored = loadFromStorage();
+    let responses        = _stored.responses;
+    let trashedResponses = _stored.trashedResponses;
+    let filteredResponses = [...responses];
+
+    // Pagination
+    const PAGE_SIZE = 10;
+    let currentPage = 1;
+
+    // Pending action targets
+    let pendingDeleteId = null;
+    let pendingPermDeleteId = null;
+    let currentViewId = null;
+
+    // =========================================================
+    //  INIT
+    // =========================================================
+    document.addEventListener('DOMContentLoaded', function () {
+        const _init = loadFromStorage();
+        responses        = _init.responses;
+        trashedResponses = _init.trashedResponses;
+        filteredResponses = [...responses];
+        updateStats();
+        renderTable();
+    });
+
+    // =========================================================
+    //  STATS
+    // =========================================================
+    function updateStats() {
+        const now = Date.now();
+        const weekAgo = now - 7 * 86400000;
+        const thisWeek = responses.filter(r => r.submittedAt >= weekAgo).length;
+
+        document.getElementById('statTotal').textContent = responses.length;
+        document.getElementById('statWeek').textContent = thisWeek;
+        document.getElementById('statTrash').textContent = trashedResponses.length;
+        document.getElementById('trashCountBadge').textContent = trashedResponses.length;
+    }
+
+    // =========================================================
+    //  FILTERS & SEARCH
+    // =========================================================
+    function applyFilters() {
+        const query = document.getElementById('searchInput').value.trim().toLowerCase();
+        const year = document.getElementById('yearFilter').value;
+
+        filteredResponses = responses.filter(r => {
+            const fullName = (r.firstName + ' ' + r.lastName).toLowerCase();
+            const matchName = !query || fullName.includes(query);
+            const matchYear = !year || r.year === year;
+            return matchName && matchYear;
+        });
+
+        currentPage = 1;
+        renderTable();
+    }
+
+    // =========================================================
+    //  TABLE RENDER
+    // =========================================================
+    function renderTable() {
+        const tbody = document.getElementById('responsesTableBody');
+        const emptyState = document.getElementById('emptyState');
+        const totalCount = filteredResponses.length;
+        const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
+        if (currentPage > totalPages) currentPage = totalPages;
+
+        const start = (currentPage - 1) * PAGE_SIZE;
+        const end = Math.min(start + PAGE_SIZE, totalCount);
+        const pageData = filteredResponses.slice(start, end);
+
+        // Badge
+        document.getElementById('tableCountBadge').textContent =
+            totalCount + (totalCount === 1 ? ' entry' : ' entries');
+
+        // Empty state
+        if (totalCount === 0) {
+            tbody.innerHTML = '';
+            emptyState.style.display = 'block';
+            document.getElementById('paginationBar').style.display = 'none';
+            renderPagination(0, 0, 0, 0);
+            return;
+        }
+
+        emptyState.style.display = 'none';
+        document.getElementById('paginationBar').style.display = 'flex';
+
+        // Rows
+        tbody.innerHTML = '';
+        pageData.forEach((r, idx) => {
+            const row = document.createElement('tr');
+            row.dataset.id = r.id;
+
+            const genderClass = r.gender === 'Male' ? 'admin-gender-m'
+                : r.gender === 'Female' ? 'admin-gender-f'
+                : r.gender === 'Non-binary' ? 'admin-gender-nb'
+                : 'admin-gender-ns';
+
+            const ratingStars = '⭐'.repeat(parseInt(r.learningRating) || 0);
+            const submittedDate = new Date(r.submittedAt).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' });
+
+            row.innerHTML = `
+                <td class="col-check"><input type="checkbox" class="admin-checkbox row-chk" data-id="${r.id}" onchange="onRowCheck()"></td>
+                <td>${start + idx + 1}</td>
+                <td class="admin-name-cell">${escHtml(r.firstName)} ${escHtml(r.lastName)}</td>
+                <td>${escHtml(r.course)}</td>
+                <td><span class="admin-year-badge">${escHtml(r.year)}</span></td>
+                <td><span class="admin-gender-badge ${genderClass}">${escHtml(r.gender)}</span></td>
+                <td>${escHtml(r.section)}</td>
+                <td>${escHtml(r.ojtStatus)}</td>
+                <td title="${escHtml(r.learningRating)}/5">${ratingStars}</td>
+                <td>${submittedDate}</td>
+                <td>
+                    <div class="admin-row-actions">
+                        <button class="admin-icon-btn aibtn-view" title="View" onclick="openViewModal(${r.id})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                        <button class="admin-icon-btn aibtn-pdf" title="Download PDF" onclick="openViewThenAction(${r.id},'pdf')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                        </button>
+                        <button class="admin-icon-btn aibtn-print" title="Print" onclick="openViewThenAction(${r.id},'print')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                        </button>
+                        <button class="admin-icon-btn aibtn-trash" title="Delete" onclick="confirmDelete(${r.id})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                        </button>
+                    </div>
+                </td>`;
+            tbody.appendChild(row);
+        });
+
+        renderPagination(start, end, totalCount, totalPages);
+    }
+
+    function renderPagination(start, end, total, totalPages) {
+        const info = document.getElementById('paginationInfo');
+        const btns = document.getElementById('paginationBtns');
+
+        if (total === 0) { info.textContent = 'No results'; btns.innerHTML = ''; return; }
+
+        info.textContent = `Showing ${start + 1}–${end} of ${total}`;
+
+        btns.innerHTML = '';
+
+        // Prev
+        const prev = makePageBtn('‹', currentPage === 1, () => { currentPage--; renderTable(); });
+        btns.appendChild(prev);
+
+        // Page numbers
+        for (let p = 1; p <= totalPages; p++) {
+            const b = makePageBtn(p, false, () => { currentPage = p; renderTable(); });
+            if (p === currentPage) b.classList.add('active');
+            btns.appendChild(b);
+        }
+
+        // Next
+        const next = makePageBtn('›', currentPage === totalPages, () => { currentPage++; renderTable(); });
+        btns.appendChild(next);
+    }
+
+    function makePageBtn(label, disabled, onClick) {
+        const b = document.createElement('button');
+        b.className = 'admin-page-btn';
+        b.textContent = label;
+        b.disabled = disabled;
+        if (!disabled) b.addEventListener('click', onClick);
+        return b;
+    }
+
+    // =========================================================
+    //  CHECKBOXES
+    // =========================================================
+    function toggleSelectAll(chk) {
+        document.querySelectorAll('.row-chk').forEach(c => c.checked = chk.checked);
+        onRowCheck();
+    }
+
+    function onRowCheck() {
+        const any = document.querySelectorAll('.row-chk:checked').length > 0;
+        const deleteBtn = document.getElementById('deleteSelectedBtn');
+        if (deleteBtn) deleteBtn.style.display = any ? 'inline-flex' : 'none';
+    }
+
+    function getSelectedIds() {
+        return [...document.querySelectorAll('.row-chk:checked')].map(c => parseInt(c.dataset.id));
+    }
+
+    // =========================================================
+    //  VIEW MODAL
+    // =========================================================
+    function openViewModal(id) {
+        const r = responses.find(x => x.id === id);
+        if (!r) return;
+        currentViewId = id;
+
+        document.getElementById('viewModalName').textContent = r.firstName + ' ' + r.lastName;
+        document.getElementById('viewModalSub').textContent =
+            'Submitted on ' + new Date(r.submittedAt).toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        document.getElementById('viewPersonalGrid').innerHTML = buildViewFields([
+            ['First Name', r.firstName], ['Last Name', r.lastName],
+            ['Course', r.course], ['Year Level', r.year],
+            ['Gender', r.gender], ['Section', r.section],
+            ['Date of Birth', r.dob], ['OJT Status', r.ojtStatus],
+        ]);
+
+        document.getElementById('viewSkillsGrid').innerHTML = buildViewFields([
+            ['Skills Confident In', r.skillsConfident],
+            ['Skills to Improve', r.skillsImprove],
+            ['Specialization', r.specialization],
+            ['Learning Rating', r.learningRating + ' / 5'],
+            ['Prepared for Work?', r.preparedForWork],
+        ]);
+
+        document.getElementById('viewTourismGrid').innerHTML = buildViewFields([
+            ['Tourism Q1', r.tourismQ1], ['Tourism Q2', r.tourismQ2],
+            ['Tourism Q3', r.tourismQ3], ['Tourism Q4', r.tourismQ4],
+            ['Tourism Q5', r.tourismQ5],
+        ]);
+
+        openAdminModal('viewModal');
+    }
+
+    function buildViewFields(pairs) {
+        return pairs.map(([label, value]) =>
+            `<div class="admin-view-field">
+                <label>${escHtml(label)}</label>
+                <div class="avf-value">${escHtml(value || '—')}</div>
+            </div>`
+        ).join('');
+    }
+
+    function openViewThenAction(id, action) {
+        openViewModal(id);
+        if (action === 'pdf') setTimeout(downloadPDF, 400);
+        else if (action === 'print') setTimeout(printResponse, 400);
+    }
+
+    // =========================================================
+    //  PDF / PRINT
+    // =========================================================
+    function downloadPDF() {
+        const r = responses.find(x => x.id === currentViewId);
+        if (!r) return;
+
+        const html = buildPrintHTML(r);
+        const win = window.open('', '_blank');
+        win.document.write(html);
+        win.document.close();
+        win.focus();
+        setTimeout(() => { win.print(); }, 600);
+    }
+
+    function printResponse() {
+        const r = responses.find(x => x.id === currentViewId);
+        if (!r) return;
+
+        const html = buildPrintHTML(r);
+        const win = window.open('', '_blank');
+        win.document.write(html);
+        win.document.close();
+        win.focus();
+        setTimeout(() => { win.print(); }, 600);
+    }
+
+    function buildPrintHTML(r) {
+        return `<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title>Response — ${r.firstName} ${r.lastName}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Nunito',sans-serif; }
+  body { padding:36px 48px; background:#fff; color:#1a1a1a; }
+  h1 { font-size:26px; font-weight:900; color:#0038A8; margin-bottom:4px; }
+  .sub { font-size:13px; color:#888; font-weight:700; margin-bottom:28px; }
+  .section-title { font-size:12px; font-weight:800; color:#0038A8; text-transform:uppercase; letter-spacing:1px;
+    border-bottom:2px solid #EEF2FF; padding-bottom:6px; margin:24px 0 14px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:14px 28px; }
+  .field label { display:block; font-size:11px; font-weight:800; color:#aaa; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:3px; }
+  .field .v { font-size:14px; font-weight:700; border-bottom:1.5px solid #E8E8E8; padding-bottom:5px; min-height:24px; }
+  .footer { margin-top:40px; font-size:11px; color:#aaa; text-align:center; }
+  @media print { body { padding:20px 28px; } }\n<\/style><\/head><body>
+<h1>${r.firstName} ${r.lastName}</h1>
+<p class="sub">Submitted on ${new Date(r.submittedAt).toLocaleDateString('en-PH',{year:'numeric',month:'long',day:'numeric'})} &nbsp;|&nbsp; TourInsights Survey Response</p>
+<div class="section-title">Personal Information</div>
+<div class="grid">
+  ${[['First Name',r.firstName],['Last Name',r.lastName],['Course',r.course],['Year Level',r.year],['Gender',r.gender],['Section',r.section],['Date of Birth',r.dob],['OJT Status',r.ojtStatus]]
+    .map(([l,v])=>`<div class="field"><label>${l}</label><div class="v">${v||'—'}</div></div>`).join('')}
+</div>
+<div class="section-title">Skills &amp; Experience</div>
+<div class="grid">
+  ${[['Skills Confident In',r.skillsConfident],['Skills to Improve',r.skillsImprove],['Specialization',r.specialization],['Learning Rating',r.learningRating+' / 5'],['Prepared for Work?',r.preparedForWork]]
+    .map(([l,v])=>`<div class="field"><label>${l}</label><div class="v">${v||'—'}</div></div>`).join('')}
+</div>
+<div class="section-title">Tourism Survey</div>
+<div class="grid">
+  ${[['Tourism Q1',r.tourismQ1],['Tourism Q2',r.tourismQ2],['Tourism Q3',r.tourismQ3],['Tourism Q4',r.tourismQ4],['Tourism Q5',r.tourismQ5]]
+    .map(([l,v])=>`<div class="field"><label>${l}</label><div class="v">${v||'—'}</div></div>`).join('')}
+</div>
+<div class="footer">TourInsights Admin Panel &mdash; Printed ${new Date().toLocaleString('en-PH')}</div>
+<\/body><\/html>`;
+    }
+
+    // =========================================================
+    //  DELETE (SINGLE)
+    // =========================================================
+    function confirmDelete(id) {
+        pendingDeleteId = id;
+        openAdminModal('deleteModal');
+    }
+
+    function executeDelete() {
+        if (pendingDeleteId == null) return;
+        const idx = responses.findIndex(r => r.id === pendingDeleteId);
+        if (idx !== -1) {
+            const [removed] = responses.splice(idx, 1);
+            removed.deletedAt = Date.now();
+            removed.autoDeleteAt = Date.now() + 30 * 86400000;
+            trashedResponses.push(removed);
+        }
+        pendingDeleteId = null;
+        closeAdminModal('deleteModal');
+        applyFilters();
+        renderTrashTable();
+        updateStats();
+        saveToStorage();
+    }
+
+    // =========================================================
+    //  DELETE SELECTED
+    // =========================================================
+    function confirmDeleteSelected() {
+        const ids = getSelectedIds();
+        if (!ids.length) return;
+        document.getElementById('deleteSelectedTitle').textContent =
+            `Move ${ids.length} response${ids.length > 1 ? 's' : ''} to Trash?`;
+        openAdminModal('deleteSelectedModal');
+    }
+
+    function executeDeleteSelected() {
+        const ids = getSelectedIds();
+        ids.forEach(id => {
+            const idx = responses.findIndex(r => r.id === id);
+            if (idx !== -1) {
+                const [removed] = responses.splice(idx, 1);
+                removed.deletedAt = Date.now();
+                removed.autoDeleteAt = Date.now() + 30 * 86400000;
+                trashedResponses.push(removed);
+            }
+        });
+        document.getElementById('selectAllChk').checked = false;
+        closeAdminModal('deleteSelectedModal');
+        applyFilters();
+        renderTrashTable();
+        updateStats();
+        saveToStorage();
+    }
+
+    // =========================================================
+    //  TRASH
+    // =========================================================
+    function openTrashView(e) {
+        e.preventDefault();
+        const sec = document.getElementById('trashSection');
+        sec.style.display = sec.style.display === 'none' ? 'block' : 'none';
+        if (sec.style.display === 'block') {
+            renderTrashTable();
+            sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    function renderTrashTable() {
+        const tbody = document.getElementById('trashTableBody');
+        const emptyState = document.getElementById('trashEmptyState');
+
+        document.getElementById('trashTableCountBadge').textContent =
+            trashedResponses.length + (trashedResponses.length === 1 ? ' entry' : ' entries');
+
+        if (!trashedResponses.length) {
+            tbody.innerHTML = '';
+            emptyState.style.display = 'block';
+            return;
+        }
+
+        emptyState.style.display = 'none';
+        tbody.innerHTML = '';
+
+        trashedResponses.forEach((r, idx) => {
+            const daysLeft = Math.max(0, Math.ceil((r.autoDeleteAt - Date.now()) / 86400000));
+            const deletedDate = new Date(r.deletedAt).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' });
+
+            const genderClass = r.gender === 'Male' ? 'admin-gender-m'
+                : r.gender === 'Female' ? 'admin-gender-f'
+                : r.gender === 'Non-binary' ? 'admin-gender-nb' : 'admin-gender-ns';
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${idx + 1}</td>
+                <td class="admin-name-cell">${escHtml(r.firstName)} ${escHtml(r.lastName)}</td>
+                <td>${escHtml(r.course)}</td>
+                <td><span class="admin-year-badge">${escHtml(r.year)}</span></td>
+                <td><span class="admin-gender-badge ${genderClass}">${escHtml(r.gender)}</span></td>
+                <td>${deletedDate}</td>
+                <td><span class="trash-countdown">${daysLeft}d left</span></td>
+                <td>
+                    <div class="admin-row-actions">
+                        <button class="admin-btn admin-btn-ghost" style="height:34px;padding:0 14px;font-size:12px;" onclick="restoreItem(${r.id})">↩ Restore</button>
+                        <button class="admin-icon-btn aibtn-trash" title="Delete permanently" onclick="confirmPermDelete(${r.id})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                        </button>
+                    </div>
+                </td>`;
+            tbody.appendChild(row);
+        });
+    }
+
+    function restoreItem(id) {
+        const idx = trashedResponses.findIndex(r => r.id === id);
+        if (idx !== -1) {
+            const [r] = trashedResponses.splice(idx, 1);
+            delete r.deletedAt;
+            delete r.autoDeleteAt;
+            responses.push(r);
+        }
+        applyFilters();
+        renderTrashTable();
+        updateStats();
+        saveToStorage();
+    }
+
+    function restoreAllTrash() {
+        [...trashedResponses].forEach(r => restoreItem(r.id));
+    }
+
+    function confirmPermDelete(id) {
+        pendingPermDeleteId = id;
+        openAdminModal('permDeleteModal');
+    }
+
+    function executePermDelete() {
+        const idx = trashedResponses.findIndex(r => r.id === pendingPermDeleteId);
+        if (idx !== -1) trashedResponses.splice(idx, 1);
+        pendingPermDeleteId = null;
+        closeAdminModal('permDeleteModal');
+        renderTrashTable();
+        updateStats();
+        saveToStorage();
+    }
+
+    function confirmEmptyTrash() {
+        if (!trashedResponses.length) return;
+        openAdminModal('emptyTrashModal');
+    }
+
+    function executeEmptyTrash() {
+        trashedResponses.length = 0;
+        closeAdminModal('emptyTrashModal');
+        renderTrashTable();
+        updateStats();
+        saveToStorage();
+    }
+
+    // =========================================================
+    //  EXPORT
+    // =========================================================
+    function flattenResponse(r) {
+        return {
+            'ID': r.id,
+            'First Name': r.firstName, 'Last Name': r.lastName,
+            'Course': r.course, 'Year Level': r.year,
+            'Gender': r.gender, 'Section': r.section,
+            'Date of Birth': r.dob, 'OJT Status': r.ojtStatus,
+            'Skills Confident': r.skillsConfident, 'Skills to Improve': r.skillsImprove,
+            'Specialization': r.specialization, 'Learning Rating': r.learningRating,
+            'Prepared for Work': r.preparedForWork,
+            'Tourism Q1': r.tourismQ1, 'Tourism Q2': r.tourismQ2,
+            'Tourism Q3': r.tourismQ3, 'Tourism Q4': r.tourismQ4,
+            'Tourism Q5': r.tourismQ5,
+            'Submitted At': new Date(r.submittedAt).toLocaleString('en-PH'),
+        };
+    }
+
+    function exportToCSV() {
+        if (!responses.length) { alert('No responses to export.'); return; }
+        const rows = responses.map(flattenResponse);
+        const headers = Object.keys(rows[0]);
+        const csv = [
+            headers.join(','),
+            ...rows.map(r => headers.map(h => `"${String(r[h] || '').replace(/"/g, '""')}"`).join(','))
+        ].join('\n');
+
+        downloadFile('TourInsights_Responses.csv', csv, 'text/csv');
+    }
+
+    function exportToXLSX() {
+        if (!responses.length) { alert('No responses to export.'); return; }
+        // Build XLSX-compatible CSV (tab-separated) and save as .xlsx-named file
+        // For a real implementation, SheetJS would be used. Here we produce a proper TSV for Excel.
+        const rows = responses.map(flattenResponse);
+        const headers = Object.keys(rows[0]);
+        const tsv = [
+            headers.join('\t'),
+            ...rows.map(r => headers.map(h => String(r[h] || '')).join('\t'))
+        ].join('\n');
+
+        // Note: true .xlsx requires SheetJS. This downloads a TSV that Excel opens natively.
+        downloadFile('TourInsights_Responses.xls', tsv, 'application/vnd.ms-excel');
+    }
+
+    function downloadFile(filename, content, mimeType) {
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename; a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    // =========================================================
+    //  MODAL HELPERS
+    // =========================================================
+    function openAdminModal(id) {
+        const m = document.getElementById(id);
+        if (m) { m.classList.add('active'); document.body.classList.add('modal-open'); }
+    }
+
+    function closeAdminModal(id) {
+        const m = document.getElementById(id);
+        if (m) {
+            m.classList.remove('active');
+            if (!document.querySelectorAll('.admin-modal-overlay.active').length) {
+                document.body.classList.remove('modal-open');
+            }
+        }
+    }
+
+    function closeModalOnBackdrop(e, id) {
+        if (e.target.id === id) closeAdminModal(id);
+    }
+
+    function openAdminLogout() {
+        openAdminModal('adminLogoutModal');
+    }
+
+    // =========================================================
+    //  SIDEBAR (mobile)
+    // =========================================================
+    function toggleAdminSidebar() {
+        const s = document.getElementById('adminSidebar');
+        const o = document.getElementById('adminSidebarOverlay');
+        s.classList.toggle('mobile-open');
+        o.classList.toggle('active');
+    }
+
+    function closeAdminSidebar() {
+        document.getElementById('adminSidebar').classList.remove('mobile-open');
+        document.getElementById('adminSidebarOverlay').classList.remove('active');
+    }
+
+    // =========================================================
+    //  UTIL
+    // =========================================================
+    function escHtml(str) {
+        return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    </script>
+
+</body>
+</html>

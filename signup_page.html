@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | EduTour</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-page-body">
+
+    <div class="signup-page-wrapper">
+        
+        <div class="signup-hero-header-banner">
+            <div class="signup-banner-interior-constrain">
+                <a href="index.html" class="return-link-white">&lt; Return</a>
+                <h1 class="welcome-heading-white">Let's create your account!</h1>
+                <p class="welcome-subtext-white">Fill in your details to register.</p>
+            </div>
+        </div>
+
+        <div class="signup-content-area">
+            
+            <form action="#" id="signupForm" class="signup-grid-element" onsubmit="handleRegistrationSubmit(event)">
+                
+                <!-- LEFT COLUMN FIELDS -->
+                <div class="signup-column">
+                    <div class="input-grid-2col">
+                        <div class="input-field-block">
+                            <label for="firstName" class="input-label-text">First Name</label>
+                            <input type="text" id="firstName" class="custom-input-box" required>
+                        </div>
+                        <div class="input-field-block">
+                            <label for="lastName" class="input-label-text">Last Name</label>
+                            <input type="text" id="lastName" class="custom-input-box" required>
+                        </div>
+                    </div>
+
+                    <div class="input-field-block">
+                        <label for="email" class="input-label-text">Email address</label>
+                        <input type="email" id="email" class="custom-input-box" required autocomplete="username">
+                    </div>
+
+                    <div class="input-field-block">
+                        <label for="createPassword" class="input-label-text">Create Password</label>
+                        <div class="password-input-container">
+                            <input type="password" id="createPassword" class="custom-input-box" required autocomplete="new-password">
+                            <button type="button" class="password-toggle-btn" onclick="toggleFieldVisibility('createPassword', this)" aria-label="Toggle password visibility">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="eye-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="input-field-block">
+                        <label for="confirmPassword" class="input-label-text">Confirm Password</label>
+                        <div class="password-input-container">
+                            <input type="password" id="confirmPassword" class="custom-input-box" required autocomplete="new-password">
+                            <button type="button" class="password-toggle-btn" onclick="toggleFieldVisibility('confirmPassword', this)" aria-label="Toggle password visibility">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="eye-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                        <span class="field-error-msg" id="passwordMatchError" style="margin-top: 4px; color: #d32f2f; font-weight: 700; display: none;">Passwords do not match. Please review your input.</span>
+                    </div>
+
+                    <div class="input-field-block">
+                        <label for="securityQuestion" class="input-label-text">Select a security question</label>
+                        <div class="select-wrapper">
+                            <select id="securityQuestion" class="custom-input-box select-field-box" required>
+                                <option value="" disabled selected>Select</option>
+                                <option>What was the name of your first pet?</option>
+                                <option>What is your mother's maiden name?</option>
+                                <option>What was the name of your elementary school?</option>
+                                <option>What city were you born in?</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-field-block">
+                        <label for="securityAnswer" class="input-label-text">Your answer</label>
+                        <input type="text" id="securityAnswer" class="custom-input-box" required>
+                    </div>
+
+                    <div class="login-redirect-footer-link-stack" style="margin-top: 10px; font-size: 16px; font-weight: 700; color: #1a1a1a;">
+                        Already have an account? <a href="login_page.html" class="signup-link-text" style="color: #0035ad; text-decoration: underline;">Log in here.</a>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN FIELDS -->
+                <div class="signup-column">
+                    <h3 class="compliance-heading-label" style="margin-top: 0;">Contact & Compliance Details</h3>
+                    
+                    <div class="input-field-block">
+                        <label for="contactNumber" class="input-label-text">Contact Number</label>
+                        <div class="philippines-phone-container">
+                            <div class="flag-prefix-box">
+                                <img src="https://raw.githubusercontent.com/lipis/flag-icons/main/flags/4x3/ph.svg" alt="PH Flag" class="ph-flag-svg">
+                                <span class="country-code-text">+63</span>
+                            </div>
+                            <input type="tel" id="contactNumber" class="custom-input-box phone-input-field" placeholder="000 000 0000" maxlength="12" oninput="formatContactNumber(this)" required>
+                        </div>
+                    </div>
+
+                    <div class="input-field-block">
+                        <label for="houseStreet" class="input-label-text">House Number/Street</label>
+                        <input type="text" id="houseStreet" class="custom-input-box" required>
+                    </div>
+
+                    <div class="input-grid-2col">
+                        <div class="input-field-block">
+                            <label for="barangay" class="input-label-text">Barangay</label>
+                            <input type="text" id="barangay" class="custom-input-box" required>
+                        </div>
+                        <div class="input-field-block">
+                            <label for="city" class="input-label-text">City/Municipality</label>
+                            <div class="select-wrapper">
+                                <select id="city" class="custom-input-box select-field-box" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option>Manila</option>
+                                    <option>Quezon City</option>
+                                    <option>Taytay</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-grid-2col">
+                        <div class="input-field-block">
+                            <label for="province" class="input-label-text">Province</label>
+                            <div class="select-wrapper">
+                                <select id="province" class="custom-input-box select-field-box" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option>Metro Manila</option>
+                                    <option>Rizal</option>
+                                    <option>Laguna</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-field-block">
+                            <label for="zipCode" class="input-label-text">Zip Code</label>
+                            <input type="text" id="zipCode" class="custom-input-box" placeholder="0000" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'')" required>
+                        </div>
+                    </div>
+
+                    <!-- Change 1: Checkbox tight inline stack positioning context rule overrides -->
+                    <div class="signup-checkbox-row-alignment" style="margin-top: 30px; display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="termsAgreementCheckbox" style="width: 18px; height: 18px; cursor: pointer;" required>
+                        <label for="termsAgreementCheckbox" class="input-label-text" style="font-size: 15px; font-weight: 700; color: #1a1a1a;">
+                            I agree to the <a href="#" onclick="openTermsModal(event)" style="color: #0035ad; text-decoration: underline; font-weight: 800;">Terms & Conditions</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="primary-login-btn signup-submit-btn" style="margin-top: 12px;">Sign Up</button>
+                </div>
+
+            </form>
+            
+        </div>
+        
+    </div>
+
+    <!-- 1:1 Revised Sign Up Confirmation Modal View Component -->
+    <div id="confirmSignUpModal" class="modal-overlay" onclick="closeConfirmModalOutside(event)">
+        <div class="modal-card confirmation-modal-card">
+            <button class="modal-close-btn confirm-close-x" onclick="closeConfirmModal()">&times;</button>
+            
+            <div class="confirm-modal-split-layout">
+                <div class="confirm-brand-heading-side padding-refined-left">
+                    <h1 class="confirm-main-title">One last check!</h1>
+                    <p class="confirm-subtitle-text">Please review your information</p>
+                    
+                    <div class="confirm-values-stack spacing-left-col">
+                        <div class="confirm-preview-block">
+                            <label class="confirm-preview-label">Full name</label>
+                            <div id="previewFullName" class="confirm-preview-output-field"></div>
+                        </div>
+                        <div class="confirm-preview-block">
+                            <label class="confirm-preview-label">Email address</label>
+                            <div id="previewEmail" class="confirm-preview-output-field"></div>
+                        </div>
+                        <div class="confirm-preview-block">
+                            <label class="confirm-preview-label">Password</label>
+                            <div class="password-input-container confirm-preview-container-box">
+                                <div id="previewPassword" class="confirm-preview-output-field confirm-mask-text"></div>
+                                <button type="button" class="password-toggle-btn preview-toggle-override" onclick="togglePreviewPasswordMask(this)" aria-label="Toggle preview password visibility">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="eye-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="confirm-preview-block">
+                            <label class="confirm-preview-label">Security Question</label>
+                            <div id="previewSecurityQuestion" class="confirm-preview-output-field"></div>
+                        </div>
+                        <div class="confirm-preview-block">
+                            <label class="confirm-preview-label">Your answer</label>
+                            <div id="previewSecurityAnswer" class="confirm-preview-output-field"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="confirm-info-values-side">
+                    <div class="confirm-values-stack">
+                        <div class="confirm-preview-block">
+                            <label class="confirm-preview-label">Contact Number</label>
+                            <div id="previewContactNumber" class="confirm-preview-output-field"></div>
+                        </div>
+                        
+                        <div class="confirm-preview-block">
+                            <label class="confirm-preview-label">House Number/Street</label>
+                            <div id="previewHouseStreet" class="confirm-preview-output-field"></div>
+                        </div>
+                        
+                        <div class="confirm-input-row-split-2col">
+                            <div class="confirm-preview-block">
+                                <label class="confirm-preview-label">Barangay</label>
+                                <div id="previewBarangay" class="confirm-preview-output-field"></div>
+                            </div>
+                            <div class="confirm-preview-block">
+                                <label class="confirm-preview-label">City/Municipality</label>
+                                <div id="previewCity" class="confirm-preview-output-field"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="confirm-input-row-split-2col">
+                            <div class="confirm-preview-block">
+                                <label class="confirm-preview-label">Province</label>
+                                <div id="previewProvince" class="confirm-preview-output-field"></div>
+                            </div>
+                            <div class="confirm-preview-block">
+                                <label class="confirm-preview-label">Zip Code</label>
+                                <div id="previewZipCode" class="confirm-preview-output-field"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="confirm-action-buttons-group">
+                            <button type="button" class="confirm-secondary-btn-outline" onclick="closeConfirmModal()">Go Back and Edit</button>
+                            <button type="button" class="confirm-primary-btn-solid" onclick="executeFinalFormRegistration()">Confirm and Sign Up</button>
+                        </div>
+                        
+                        <div class="confirm-footer-legal-notice">
+                            By continuing, you agree to our <a href="#" onclick="openTermsModal(event)">Terms & Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="successSignUpModal" class="modal-overlay" onclick="closeSuccessModalOutside(event)">
+        <div class="modal-card success-modal-card">
+            <button class="modal-close-btn success-close-x" onclick="closeSuccessModal()">&times;</button>
+            <div class="success-icon-celebration-wrapper"><span>🎉</span></div>
+            <h1 class="success-modal-heading">Registration Successful!</h1>
+            <p class="success-modal-body-text">Your account has been successfully created! You can now log in and start using the platform.</p>
+            <button type="button" class="success-redirect-login-btn" onclick="redirectToLoginPagePath()">Proceed to Login</button>
+        </div>
+    </div>
+
+    <div id="termsConditionsModalPortal" class="modal-overlay" onclick="closeLocalModalOutside(event)">
+        <div class="modal-card" style="max-width: 800px; padding: 40px; height: 85vh;">
+            <button class="modal-close-btn" onclick="closeLocalModal('termsConditionsModalPortal')">&times;</button>
+            <div class="modal-content-scroll">
+                <h1 class="modal-title" style="font-size: 32px; color: #0035ad;">Terms & Conditions</h1>
+                <p class="modal-date" style="margin-bottom: 20px;">Effective Date: May 23, 2026</p>
+                
+                <h2 class="modal-subtitle">I. Acceptance of Terms</h2>
+                <p class="modal-paragraph">Welcome to the Tourism Management Academic & Practical Experience Survey Platform (Group 6). By creating an account, accessing, or using this platform, you explicitly agree to be bound by these Terms & Conditions and our data collection practices. If you do not agree to these terms, you must not create an account or participate in any survey activities on this website.</p>
+                
+                <h2 class="modal-subtitle">II. Eligibility and Student Registration</h2>
+                <p class="modal-paragraph">This platform is an institutional research tool designed exclusively for authorized student researchers and participants within the tourism management program. To use the platform, you must complete the two-step registration process using accurate, current, and complete information, including your full name, official Student ID Number, year level, and institutional email address. Registering under a false identity or using credentials that do not belong to you is strictly prohibited.</p>
+                
+                <h2 class="modal-subtitle">III. Data Collection and Usage</h2>
+                <p class="modal-paragraph">To fulfill our objectives as an institutional research tool, we gather specific data categories during your registration and survey participation.</p>
+                <p class="modal-paragraph"><strong>What We Collect:</strong> Full name, institutional email address, account password, Student ID number, year level, primary contact number, date of birth, gender, and complete permanent home address. We also securely maintain a designated emergency contact profile exclusively to ensure student safety.</p>
+                <p class="modal-paragraph"><strong>How We Use It:</strong> All collected data is strictly utilized for academic and curriculum analysis, identity verification to maintain a "one valid student, one set of responses" standard, and institutional security to prevent unauthorized access or system tampering.</p>
+                
+                <h2 class="modal-subtitle">IV. Privacy, Confidentiality, and Data Sharing</h2>
+                <p class="modal-paragraph">We are deeply committed to protecting the privacy, confidentiality, and security of our users. Your individual survey responses and feedback data will be aggregated and anonymized for academic reports. Your answers will never be personally tied back to your identity or student profile in any public or academic publication. We do not sell, rent, trade, or distribute your personal information to third-party commercial entities without your consent, and information is only disclosed to institutional authorities if mandated by legal compliance or official disciplinary procedures.</p>
+                
+                <h2 class="modal-subtitle">V. Account Security and User Responsibility</h2>
+                <p class="modal-paragraph">You are entirely responsible for maintaining the confidentiality of your account password, authentication credentials, and security answers. Any activity that occurs under your account is your sole responsibility. You agree to immediately notify the technical team of any unauthorized use of your account or any other breach of security. The platform development team and the institution are not liable for losses caused by unauthorized use of your account.</p>
+                
+                <h2 class="modal-subtitle">VI. System Integrity and Acceptable Use</h2>
+                <p class="modal-paragraph">To maintain a trustworthy research environment, you agree to use the platform only for its intended academic purposes and bound by a strict standard of digital conduct. You are prohibited from submitting fraudulent, duplicate, or intentionally misleading survey responses. Furthermore, you must not attempt to bypass, disable, or tamper with the security frameworks, encryption, or database structures, nor introduce malicious software or use automated scraping tools to extract information from the platform.</p>
+                
+                <h2 class="modal-subtitle">VII. Enforcement and Institutional Accountability</h2>
+                <p class="modal-paragraph">We maintain a strict stance on data integrity and infrastructure security. Student ID numbers, institutional emails, and compliance details are securely logged to ensure traceability against malicious data tampering or unauthorized digital interference. Any violation of these terms will be treated as a breach of institutional conduct, and we reserve the right to suspend or terminate your account access immediately and refer the logged records to official authorities for disciplinary procedures.</p>
+                
+                <h2 class="modal-subtitle">VIII. Modifications and Retention</h2>
+                <p class="modal-paragraph">Your student profile and compliance records will be retained for the duration required to complete the ongoing academic research cycle and satisfy institutional accountability guidelines. We reserve the right to update or modify these Terms & Conditions at any time as the platform evolves. Any updates will be posted directly on this page with a revised effective date, and your continued use of the platform constitutes your explicit acceptance of the updated terms.</p>
+                
+                <h2 class="modal-subtitle">IX. Contact Information</h2>
+                <p class="modal-paragraph">If you have questions regarding these Terms & Conditions, require technical support, or need to inquire about account management and stored records, please reach out via the technical team contact framework provided in the platform footer.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let plaintextPasswordCache = "";
+
+        function toggleFieldVisibility(fieldId, toggleBtn) {
+            const inputTarget = document.getElementById(fieldId);
+            if (inputTarget.type === 'password') {
+                inputTarget.type = 'text';
+                toggleBtn.classList.add('visible');
+            } else {
+                inputTarget.type = 'password';
+                toggleBtn.classList.remove('visible');
+            }
+        }
+
+        function togglePreviewPasswordMask(toggleBtn) {
+            const previewBox = document.getElementById('previewPassword');
+            if (previewBox.classList.contains('confirm-mask-text')) {
+                previewBox.classList.remove('confirm-mask-text');
+                previewBox.innerText = plaintextPasswordCache;
+                toggleBtn.classList.add('visible');
+            } else {
+                previewBox.classList.add('confirm-mask-text');
+                previewBox.innerText = "•".repeat(Math.max(plaintextPasswordCache.length, 8));
+                toggleBtn.classList.remove('visible');
+            }
+        }
+
+        function openTermsModal(event) {
+            if (event) event.preventDefault();
+            const targetedOverlay = document.getElementById('termsConditionsModalPortal');
+            if (targetedOverlay) {
+                targetedOverlay.classList.add('active');
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function closeLocalModal(modalId) {
+            const targetedOverlay = document.getElementById(modalId);
+            if (targetedOverlay) {
+                targetedOverlay.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function closeLocalModalOutside(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeLocalModal(event.target.id);
+            }
+        }
+
+        
+        // Real-time interactive display mask formatting tracker for mobile field sequences
+        function formatContactNumber(input) {
+            // Strip out any incoming non-numeric raw key strings
+            let rawValue = input.value.replace(/[^0-9]/g, '');
+            
+            // Limit absolute input array evaluation length threshold to 10 numerical characters
+            if (rawValue.length > 10) {
+                rawValue = rawValue.substr(0, 10);
+            }
+            
+            // Assemble layout chunks matching 3-3-4 distribution spacing blueprint rules
+            let formattedValue = '';
+            if (rawValue.length > 0) {
+                formattedValue += rawValue.substr(0, 3);
+            }
+            if (rawValue.length > 3) {
+                formattedValue += ' ' + rawValue.substr(3, 3);
+            }
+            if (rawValue.length > 6) {
+                formattedValue += ' ' + rawValue.substr(6, 4);
+            }
+            
+            // Re-assign formatted string onto layout display context canvas layer
+            input.value = formattedValue;
+        }
+
+        function handleRegistrationSubmit(event) {
+            event.preventDefault();
+            
+            const createPwd = document.getElementById('createPassword');
+            const confirmPwd = document.getElementById('confirmPassword');
+            const matchError = document.getElementById('passwordMatchError');
+            const termsChecked = document.getElementById('termsAgreementCheckbox');
+            
+            if (createPwd.value !== confirmPwd.value) {
+                confirmPwd.classList.add('input-error-state');
+                matchError.style.display = 'block';
+                confirmPwd.focus();
+                return;
+            } else {
+                confirmPwd.classList.remove('input-error-state');
+                matchError.style.display = 'none';
+            }
+
+            if (!termsChecked.checked) {
+                alert('Please accept the Terms & Conditions before proceeding.');
+                return;
+            }
+
+            document.getElementById('previewFullName').innerText = document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value;
+            document.getElementById('previewEmail').innerText = document.getElementById('email').value;
+            
+            // Clean out text spaces to store raw values for backend tracking data structures
+            const contactInput = document.getElementById('contactNumber');
+            const cleanRawContact = contactInput.value.replace(/\s+/g, '');
+
+            document.getElementById('previewContactNumber').innerText = '+63 ' + contactInput.value;
+            
+            plaintextPasswordCache = createPwd.value;
+            const previewBox = document.getElementById('previewPassword');
+            previewBox.classList.add('confirm-mask-text');
+            previewBox.innerText = "•".repeat(Math.max(plaintextPasswordCache.length, 8));
+            
+            document.getElementById('previewSecurityQuestion').innerText = document.getElementById('securityQuestion').value;
+            document.getElementById('previewSecurityAnswer').innerText = document.getElementById('securityAnswer').value;
+            
+            document.getElementById('previewHouseStreet').innerText = document.getElementById('houseStreet').value;
+            document.getElementById('previewBarangay').innerText = document.getElementById('barangay').value;
+            document.getElementById('previewCity').innerText = document.getElementById('city').value;
+            document.getElementById('previewProvince').innerText = document.getElementById('province').value;
+            document.getElementById('previewZipCode').innerText = document.getElementById('zipCode').value;
+            
+            const confirmModal = document.getElementById('confirmSignUpModal');
+            confirmModal.classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeConfirmModal() {
+            const confirmModal = document.getElementById('confirmSignUpModal');
+            confirmModal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+
+        function closeConfirmModalOutside(event) {
+            if (event.target.id === 'confirmSignUpModal') {
+                closeConfirmModal();
+            }
+        }
+
+        function executeFinalFormRegistration() {
+            closeConfirmModal();
+            const successModal = document.getElementById('successSignUpModal');
+            successModal.classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeSuccessModal() {
+            const successModal = document.getElementById('successSignUpModal');
+            successModal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+
+        function closeSuccessModalOutside(event) {
+            if (event.target.id === 'successSignUpModal') {
+                closeSuccessModal();
+            }
+        }
+
+        function redirectToLoginPagePath() {
+            closeSuccessModal();
+            window.location.href = 'login_page.html';
+        }
+    </script>
+</body>
+</html>

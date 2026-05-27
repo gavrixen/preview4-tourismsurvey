@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary | EduTour</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="summary-wrapper">
+
+        <a href="dashboard.html" class="summary-back-link no-print">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18L9 12L15 6" stroke="#0035ad" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back to Dashboard
+        </a>
+
+        <div class="summary-page-header">
+            <div class="summary-page-title-block">
+                <div class="summary-submitted-badge">Response Submitted</div>
+                <h1>Your Survey Summary</h1>
+                <p id="summarySubmitTimestamp">Survey completed successfully.</p>
+            </div>
+            <button class="summary-download-btn no-print" onclick="downloadSummaryAsPdf()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 16L7 11M12 16L17 11M12 16V4" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3 20H21" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+                Download as PDF
+            </button>
+        </div>
+
+        <div class="summary-content-grid" id="summaryContentGrid">
+
+            <!-- PERSONAL INFORMATION — full width, 2-column inner layout -->
+            <div class="summary-section-card full-width">
+                <h2 class="summary-section-title">Personal Information</h2>
+                <div class="summary-inner-grid">
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Full Name</span>
+                        <span class="summary-row-value" id="sumFullName">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Date of Birth</span>
+                        <span class="summary-row-value" id="sumDob">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Gender</span>
+                        <span class="summary-row-value" id="sumGender">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Year Level</span>
+                        <span class="summary-row-value" id="sumYear">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Course</span>
+                        <span class="summary-row-value" id="sumCourse">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Section</span>
+                        <span class="summary-row-value" id="sumSection">N/A</span>
+                    </div>
+                    <div class="summary-row-item span-full">
+                        <span class="summary-row-label">University</span>
+                        <span class="summary-row-value" id="sumUniversity">N/A</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKILLS & EXPERIENCE EVALUATION -->
+            <div class="summary-section-card">
+                <h2 class="summary-section-title">Skills & Experience Evaluation</h2>
+                <div class="summary-rows-stack">
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Confident Skill</span>
+                        <span class="summary-row-value" id="sumSkillConfident">N/A</span>
+                    </div>
+                    <div class="summary-row-item block-layout">
+                        <span class="summary-row-label">Skills to Improve</span>
+                        <span class="summary-row-value" id="sumSkillImprovement">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Specialization</span>
+                        <span class="summary-row-value" id="sumSpecialization">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">OJT / Internship</span>
+                        <span class="summary-row-value" id="sumOjt">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Learning Experience Rating</span>
+                        <span class="summary-row-value" id="sumLearningRating">N/A</span>
+                    </div>
+                    <div class="summary-row-item block-layout">
+                        <span class="summary-row-label">Preparedness for Tourism Industry</span>
+                        <span class="summary-row-value" id="sumOverallExp">N/A</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOURISM SURVEY -->
+            <div class="summary-section-card">
+                <h2 class="summary-section-title">Tourism Survey</h2>
+                <div class="summary-rows-stack">
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Participated in Tourism Activities</span>
+                        <span class="summary-row-value" id="sumStatus">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Destination Visited</span>
+                        <span class="summary-row-value" id="sumDest">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Visit Date</span>
+                        <span class="summary-row-value" id="sumDate">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">How Did You Hear About This Place</span>
+                        <span class="summary-row-value" id="sumSource">N/A</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXPERIENCE RATINGS -->
+            <div class="summary-section-card">
+                <h2 class="summary-section-title">Experience Ratings</h2>
+                <div class="summary-rows-stack">
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Overall Experience</span>
+                        <span class="summary-row-value" id="sumRatingOverall">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Cleanliness</span>
+                        <span class="summary-row-value" id="sumRatingClean">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Safety</span>
+                        <span class="summary-row-value" id="sumRatingSafety">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Accessibility</span>
+                        <span class="summary-row-value" id="sumRatingAccess">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Friendliness of Locals/Staff</span>
+                        <span class="summary-row-value" id="sumRatingStaff">N/A</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SERVICES & FACILITIES -->
+            <div class="summary-section-card">
+                <h2 class="summary-section-title">Services & Facilities</h2>
+                <div class="summary-rows-stack">
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Satisfied with Facilities</span>
+                        <span class="summary-row-value" id="sumFacilities">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Prices Were Reasonable</span>
+                        <span class="summary-row-value" id="sumPrices">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Signage Was Clear and Helpful</span>
+                        <span class="summary-row-value" id="sumSignage">N/A</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SATISFACTION & RECOMMENDATION — full width -->
+            <div class="summary-section-card full-width">
+                <h2 class="summary-section-title">Satisfaction & Recommendation</h2>
+                <div class="summary-inner-grid">
+                    <div class="summary-row-item block-layout">
+                        <span class="summary-row-label">What I Liked Most</span>
+                        <span class="summary-row-value" id="sumLikeMost">N/A</span>
+                    </div>
+                    <div class="summary-row-item block-layout">
+                        <span class="summary-row-label">What I Disliked or Found Lacking</span>
+                        <span class="summary-row-value" id="sumDislike">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Would Recommend This Place</span>
+                        <span class="summary-row-value" id="sumRecommend">N/A</span>
+                    </div>
+                    <div class="summary-row-item">
+                        <span class="summary-row-label">Would Visit Again</span>
+                        <span class="summary-row-value" id="sumVisitAgain">N/A</span>
+                    </div>
+                    <div class="summary-row-item block-layout">
+                        <span class="summary-row-label">Suggested Improvements</span>
+                        <span class="summary-row-value" id="sumSuggestions">N/A</span>
+                    </div>
+                    <div class="summary-row-item block-layout">
+                        <span class="summary-row-label">Additional Comments</span>
+                        <span class="summary-row-value" id="sumComments">N/A</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // ===== LOAD SUMMARY DATA FROM localStorage =====
+        (function loadSummaryData() {
+            const raw = localStorage.getItem('edutour_survey_response');
+            if (!raw) return;
+            try {
+                const d = JSON.parse(raw);
+                const set = (id, val) => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = val || 'N/A';
+                };
+                set('sumFullName', d.fullName);
+                set('sumDob', d.dob);
+                set('sumGender', d.gender);
+                set('sumYear', d.year);
+                set('sumCourse', d.course);
+                set('sumSection', d.section);
+                set('sumUniversity', d.university);
+                set('sumSkillConfident', d.skillConfident);
+                set('sumSkillImprovement', d.skillImprovement);
+                set('sumSpecialization', d.specialization);
+                set('sumOjt', d.ojt);
+                set('sumLearningRating', d.learningRating);
+                set('sumOverallExp', d.overallExp);
+                set('sumStatus', d.status);
+                set('sumDest', d.dest);
+                set('sumDate', d.date);
+                set('sumSource', d.source);
+                set('sumRatingOverall', d.ratingOverall);
+                set('sumRatingClean', d.ratingClean);
+                set('sumRatingSafety', d.ratingSafety);
+                set('sumRatingAccess', d.ratingAccess);
+                set('sumRatingStaff', d.ratingStaff);
+                set('sumFacilities', d.facilities);
+                set('sumPrices', d.prices);
+                set('sumSignage', d.signage);
+                set('sumLikeMost', d.likeMost);
+                set('sumDislike', d.dislike);
+                set('sumRecommend', d.recommend);
+                set('sumVisitAgain', d.visitAgain);
+                set('sumSuggestions', d.suggestions);
+                set('sumComments', d.comments);
+                if (d.submittedAt) {
+                    const ts = document.getElementById('summarySubmitTimestamp');
+                    if (ts) ts.textContent = 'Submitted on ' + d.submittedAt;
+                }
+            } catch (e) {
+                console.warn('Could not parse survey response data.', e);
+            }
+        })();
+
+        // ===== PDF DOWNLOAD =====
+        function downloadSummaryAsPdf() {
+            window.print();
+        }
+    </script>
+
+</body>
+</html>
